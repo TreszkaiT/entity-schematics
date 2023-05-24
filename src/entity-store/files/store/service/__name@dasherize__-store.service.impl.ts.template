@@ -1,0 +1,63 @@
+import { Observable } from 'rxjs';
+import {
+    <%= classify(name) %>Entity,
+    <%= classify(name) %>EntityAdd,
+    <%= classify(name) %>EntityUpdate,
+    <%= classify(name) %>StoreService,
+} from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import * as <%= camelize(name) %>Actions from '../state/<%= dasherize(name) %>.actions';
+import * as from<%= classify(name) %> from '../state/<%= dasherize(name) %>.reducer';
+import * as <%= classify(name) %>Selectors from '../state/<%= dasherize(name) %>.selectors';
+
+@Injectable()
+export class <%= classify(name) %>StoreServiceImpl extends <%= classify(name) %>StoreService {
+    public constructor(private store: Store<from<%= classify(name) %>.<%= classify(name) %>PartialState>) {   // ezt a store: -t egy ilyen <%= classify(name) %>PartialState interface alapján szeretném használni
+        super();
+    }
+
+    public dispatchAddEntityAction(<%= camelize(name) %>: <%= classify(name) %>EntityAdd): void {
+        this.store.dispatch(<%= camelize(name) %>Actions.add<%= classify(name) %>({ <%= camelize(name) %> }));
+    }
+
+    public dispatchChangeNewEntityButtonEnabled(enabled: boolean): void {
+		this.store.dispatch(
+			<%= camelize(name) %>Actions.changeNewEntityButtonEnabled({ enabled })
+		);
+	} 
+
+    public override dispatchGetEntityAction(id: string): void {
+        this.store.dispatch(<%= camelize(name) %>Actions.get<%= classify(name) %>({ id }));
+    }
+
+    public dispatchListEntitiesAction(): void {
+        this.store.dispatch(<%= camelize(name) %>Actions.list<%= classify(name) %>s());
+    }
+
+    public dispatchUpdateEntityAction(<%= camelize(name) %>: <%= classify(name) %>EntityUpdate): void {
+        this.store.dispatch(<%= camelize(name) %>Actions.update<%= classify(name) %>({ <%= camelize(name) %> }));
+    }
+
+    public isLoading$(): Observable<boolean> {
+        return this.store.pipe(select(<%= classify(name) %>Selectors.get<%= classify(name) %>Loading));
+    }
+
+    public override selectEntity$(
+        id: string
+    ): Observable<<%= classify(name) %>Entity | undefined> {
+        return this.store.pipe(select(<%= classify(name) %>Selectors.select<%= classify(name) %>ById(id)));
+    }
+
+    public selectEntityList$(): Observable<<%= classify(name) %>Entity[]> {
+        return this.store.pipe(select(<%= classify(name) %>Selectors.getAll<%= classify(name) %>));
+    }
+
+    public selectNewEntityButtonEnabled$(): Observable<boolean> {
+		return this.store.pipe(
+			select(<%= classify(name) %>Selectors.isNewEntityButtonEnabled)
+		);
+	} 
+}

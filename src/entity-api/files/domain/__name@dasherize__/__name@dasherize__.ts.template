@@ -1,0 +1,27 @@
+import { FormGroup } from '@angular/forms';
+
+import { Identifiable } from '../../identifiable';
+
+export const <%= name.toUpperCase() %>_FEATURE_KEY = '<%= dasherize(name) %>';
+
+export interface <%= classify(name) %>Model {
+  name: string;
+  zip: string;
+}
+
+export type <%= classify(name) %>Entity = <%= classify(name) %>Model & Identifiable;
+
+export type <%= classify(name) %>EntityAdd = <%= classify(name) %>Model;
+
+export type <%= classify(name) %>EntityUpdate = Partial<<%= classify(name) %>Entity> & Identifiable;
+
+export type <%= classify(name) %>FormParams = {
+    formGroup: FormGroup;
+
+};
+
+export type <%= classify(name) %>TableParams = {
+    <%= camelize(name) %>s: <%= classify(name) %>Entity[];
+};
+
+

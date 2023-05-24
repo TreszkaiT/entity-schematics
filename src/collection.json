@@ -6,31 +6,11 @@
       "factory": "./entity/index",
       "schema": "./entity/schema.json"
     },
-    "entity-src": {
-      "description": "Generate SRC files.",
-      "factory": "./entity-src/index",
-      "schema": "./entity-src/schema.json"
-    },
-    "entity-app": {
-      "description": "Generate APP files.",
-      "factory": "./entity-app/index",
-      "schema": "./entity-app/schema.json"
-    },
     "entity-api": {
       "description": "An Entity API schematic.",
       "factory": "./entity-api/index",
       "schema": "./entity-api/schema.json"
-    },
-    "entity-authentication": {
-      "description": "An Entity admin authentication.",
-      "factory": "./entity-authentication/index",
-      "schema": "./entity-authentication/schema.json"
-    },
-    "entity-authorization": {
-      "description": "An Entity admin authorization.",
-      "factory": "./entity-authorization/index",
-      "schema": "./entity-authorization/schema.json"
-    },    
+    }, 
     "entity-data": {
       "description": "An Entity data schematic.",
       "factory": "./entity-data/index",
@@ -60,11 +40,6 @@
       "description": "An Entity admin schematic.",
       "factory": "./entity-admin/index",
       "schema": "./entity-admin/schema.json"
-    },
-    "entity-page": {
-      "description": "An Entity page schematic.",
-      "factory": "./entity-page/index",
-      "schema": "./entity-page/schema.json"
     }
   }
 }

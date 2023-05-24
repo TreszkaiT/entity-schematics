@@ -1,0 +1,9 @@
+import { <%= classify(name) %>Entity, <%= classify(name) %>EntityAdd, <%= classify(name) %>EntityUpdate } from './<%= dasherize(name) %>';
+
+import { FormGroup } from '@angular/forms';
+
+export abstract class <%= classify(name) %>UtilService {
+    public abstract createEntity(formGroup: FormGroup): <%= classify(name) %>EntityAdd;
+    public abstract createFormGroup(<%= camelize(name) %>: <%= classify(name) %>Entity | undefined): FormGroup;
+    public abstract updateEntity(formGroup: FormGroup): <%= classify(name) %>EntityUpdate;
+}

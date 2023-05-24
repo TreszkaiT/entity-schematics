@@ -1,14 +1,13 @@
-import { <%= classify(name) %>Entity, USER_FEATURE_KEY } from '<%= apiPath %>/<%= dasherize(name) %>';
+import { <%= name.toUpperCase() %>_FEATURE_KEY, <%= classify(name) %>Entity } from '<%= apiPath %>/<%= camelize(name) %>';
 
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-//import { State, USER_FEATURE_KEY, <%= camelize(name) %>Adapter } from './<%= dasherize(name) %>.reducer';
 import { State, <%= camelize(name) %>Adapter } from './<%= dasherize(name) %>.reducer';
 
-export const get<%= classify(name) %>State = createFeatureSelector<State>(USER_FEATURE_KEY);
+export const get<%= classify(name) %>State = createFeatureSelector<State>(<%= name.toUpperCase() %>_FEATURE_KEY);
 
-const { selectAll, selectEntities } = <%= camelize(name) %>Adapter.getSelectors();
+const { selectAll, selectEntities } = <%= camelize(name) %>Adapter.getSelectors();           // Reducer-ben lévő <%= camelize(name) %>Adapter segítségével tudok gyorsan selectálni <%= classify(name) %>Entity-ket itt letebb
 
 export const get<%= classify(name) %>Loading = createSelector(
     get<%= classify(name) %>State,
@@ -33,11 +32,6 @@ export const getSelectedId = createSelector(
     (state: State) => state.selectedId || ''
 );
 
-export const selectSelectedEntity = createSelector(
-    get<%= classify(name) %>State,
-    (state: State) => state.selectedEntity
-);
-
 export const isNewEntityButtonEnabled = createSelector(
 	get<%= classify(name) %>State,
 	(state: State) => state.isNewEntityButtonEnabled
@@ -50,6 +44,6 @@ export const select<%= classify(name) %> = createSelector(
 );
 
 export const select<%= classify(name) %>ById = (id: string) =>
-    createSelector(get<%= classify(name) %>Entities, (<%= camelize(name) %>Entities: Dictionary<<%= classify(name) %>Entity>) => {
-        return <%= camelize(name) %>Entities[id];
+    createSelector(get<%= classify(name) %>Entities, (<%= camelize(name) %>Entities: Dictionary<<%= classify(name) %>Entity>) => {     
+        return <%= camelize(name) %>Entities[id];                                                    // a Dictionary-val lehet elérni, hogy itt id alapján adjon vissza egy <%= classify(name) %>Entity-t (Map-pinget így tudom egy kéréssel gyorsan átnézni)
     });

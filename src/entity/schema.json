@@ -15,45 +15,27 @@
                 "message": "Which modules do you want to generate?",
                 "type": "list",
                 "items": [
-                    "api", "authentication", "authorization", "config", "data", "store", "form", "util", "view", "collection", "admin", "page"
+                    "api", "data", "store", "form", "util", "collection", "admin"
                 ]
             }
         },
-        "srcPath": {
-            "type": "string",
-            "default": "src",
-            "description": "Src path",
-            "x-prompt": "Generate the src directory files: ( src )"
-        },
-        "appPath": {
-            "type": "string",
-            "default": "src/app",
-            "description": "App path",
-            "x-prompt": "Generate the src/app directory files: ( src/app )"
-        },
         "modulePath": {
             "type": "string",
-            "default": "src/app/module",
+            "default": "src/app/module/domain",
             "description": "Module path",
-            "x-prompt": "Where do you want to generate the selected modules? ( src/app/module )"
+            "x-prompt": "Where do you want to generate the selected modules? ( src/app/module/domain )"
         },
         "apiPath": {
             "type": "string",
-            "default": "src/app/api",
+            "default": "src/app/api/domain",
             "description": "Api path",
-            "x-prompt": "Where is your project api folder? ( src/app/api )"
+            "x-prompt": "Where is your project api folder? ( src/app/api/domain )"
         },
-        "viewPath": {
+        "corePath": {
             "type": "string",
-            "default": "src/app/page",
-            "description": "View (Page) path",
-            "x-prompt": "Where is your project view folder? ( src/app/page )"
-        },
-        "authorization": {
-            "type": "boolean",
-            "default": false,
-            "description": "Authorization add",
-            "x-prompt": "Add Authorization in your code?  ( true/false )"
+            "default": "src/app/core",
+            "description": "Core path",
+            "x-prompt": "Where is your project core folder? ( src/app/core )"
         }
     },
     "required": ["name"]

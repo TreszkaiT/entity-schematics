@@ -1,31 +1,19 @@
 export interface EntitySchema {
     name: string;
     modules: string[];
-    srcPath: string;
-    appPath: string;
     modulePath: string;
     apiPath: string;
-    viewPath: string;
-    authorization: boolean;
+    corePath: string;
 }
 
-export enum ModulesEnum {
-    //main files
-    src             = 'src',
-    app             = 'app',        
+export enum ModulesEnum {   
     //api
     api             = "api",
-    authentication  = "authentication",
-    authorization   = "authorization",
     //modules
     data            = "data",
     store           = "store",
     form            = "form",
     util            = "util",
-    view            = "view",
     collection      = "collection",
     admin           = "admin",
-    //pages
-    page            = "page",
-
 }

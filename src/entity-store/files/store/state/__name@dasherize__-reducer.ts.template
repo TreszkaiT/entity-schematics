@@ -1,44 +1,42 @@
-import { <%= classify(name) %>Entity, USER_FEATURE_KEY } from '<%= apiPath %>/<%= dasherize(name) %>';
+import { <%= name.toUpperCase() %>_FEATURE_KEY, <%= classify(name) %>Entity } from '<%= apiPath %>/<%= dasherize(name) %>';
 
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
 import * as <%= camelize(name) %>Actions from './<%= dasherize(name) %>.actions';
 
-//export const USER_FEATURE_KEY = '<%= camelize(name) %>';
 
-export interface State extends EntityState<<%= classify(name) %>Entity> {
+
+export interface State extends EntityState<<%= classify(name) %>Entity> {            // State elkészül itt: ids: és entities: property-k azok eleve elkszünek az EntityState-ben. Itt benne, ezekkel nekem már nem kell foglalkozni!!!
     isNewEntityButtonEnabled: boolean;
     selectedId?: string;
-    selectedEntity: <%= classify(name) %>Entity | null;
     loading: boolean;
     error?: string | null;
 }
 
-export interface <%= classify(name) %>PartialState {
-    readonly [USER_FEATURE_KEY]: State;
+export interface <%= classify(name) %>PartialState {                 // service.impl-ben adom meg hogy tt -->
+    readonly [<%= name.toUpperCase() %>_FEATURE_KEY]: State;
 }
 
 export const <%= camelize(name) %>Adapter: EntityAdapter<<%= classify(name) %>Entity> =
     createEntityAdapter<<%= classify(name) %>Entity>({
-        selectId: (model: <%= classify(name) %>Entity) => model.id,
+        selectId: (model: <%= classify(name) %>Entity) => model.id,      // itt adhatom meg, hogy az érkező Entity-knek mi legyen az elsődleges kulcsa, amit használok a Stateben
     });
 
-export const initialState: State = <%= camelize(name) %>Adapter.getInitialState({
-    isNewEntityButtonEnabled: true,
+export const initialState: State = <%= camelize(name) %>Adapter.getInitialState({        // <%= camelize(name) %>Adapter segítségével készítúnk egy initialState-t. Ez megjelenik amúgy az authentication.reducer.ts-ben is
+    isNewEntityButtonEnabled: true,                                 // Ekkor készül el maga a Reducer, és ezel az Obj.al: initialState fogja inicializálni az adott State állapotát
     loading: false,
-    selectedEntity: null
 });
 
 const <%= camelize(name) %>Reducer = createReducer(
     initialState,
-    on(<%= camelize(name) %>Actions.add<%= classify(name) %>, (state) => ({
+    on(<%= camelize(name) %>Actions.add<%= classify(name) %>, (state) => ({                       // Ezek a fgv.el / on() / a különböző Action-okra Hookolnak rá, azaz lefuttatnak egy logikát, amivel én be tudom updatelni a state-t
         ...state,
         loading: false,
         error: null,
     })),
     on(<%= camelize(name) %>Actions.add<%= classify(name) %>Success, (state, { <%= camelize(name) %> }) =>
-        <%= camelize(name) %>Adapter.addOne(<%= camelize(name) %>, { ...state, loading: true })
+        <%= camelize(name) %>Adapter.addOne(<%= camelize(name) %>, { ...state, loading: true })       // az NgRx Entity abban segít pl. hogy a <%= camelize(name) %>Adapteren keresztül olyan metódusokat biztosít, amivel nagyon könnyen be tudom módosítani az Entity State-t    
     ),
     on(<%= camelize(name) %>Actions.add<%= classify(name) %>Fail, (state, { error }) => ({ ...state, error })),
     on(<%= camelize(name) %>Actions.changeNewEntityButtonEnabled, (state, { enabled }) => ({
@@ -64,15 +62,9 @@ const <%= camelize(name) %>Reducer = createReducer(
         error: null,
     })),
     on(<%= camelize(name) %>Actions.list<%= classify(name) %>sSuccess, (state, { <%= camelize(name) %>s }) =>
-        <%= camelize(name) %>Adapter. upsertMany(<%= camelize(name) %>s, { ...state, loading: true })
+        <%= camelize(name) %>Adapter.upsertMany(<%= camelize(name) %>s, { ...state, loading: true })
     ),
     on(<%= camelize(name) %>Actions.list<%= classify(name) %>sFail, (state, { error }) => ({ ...state, error })),
-    on(<%= camelize(name) %>Actions.selectEntity, (state, { <%= camelize(name) %>}) => {
-        return {
-            ...state,
-            selectedEntity: <%= camelize(name) %>
-        }
-    }),
     on(<%= camelize(name) %>Actions.update<%= classify(name) %>Success, (state, { <%= camelize(name) %> }) =>
         <%= camelize(name) %>Adapter.updateOne(<%= camelize(name) %>, state)
     ),
@@ -82,5 +74,3 @@ const <%= camelize(name) %>Reducer = createReducer(
 export function reducer(state: State | undefined, action: Action) {
     return <%= camelize(name) %>Reducer(state, action);
 }
-
-

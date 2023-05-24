@@ -1,3 +1,0 @@
-export * from './admin-permissions.service';
-export * from './admin-role-permissions.service';
-export * from './admin-<%= dasherize(name) %>-permissions.service';

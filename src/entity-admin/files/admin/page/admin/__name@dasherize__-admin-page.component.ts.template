@@ -12,11 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class <%= classify(name) %>AdminPageComponent implements OnInit {
 
-<% if (authorization) { %>
-    public buttonPermissions: string[] = [];
-<% } else { %>
-<% }%>    
-
     public isNewEntityButtonEnabled$!: Observable<boolean>;
 
     public constructor(
@@ -32,19 +27,5 @@ export class <%= classify(name) %>AdminPageComponent implements OnInit {
     public ngOnInit(): void {
         this.isNewEntityButtonEnabled$ =
             this.<%= camelize(name) %>StoreService.selectNewEntityButtonEnabled$();
-        
-        <% if (authorization) { %>
-        this.initButtonPermissions();
-        <% } else { %>
-        <% }%> 
     }
-
-<% if (authorization) { %>
-    private initButtonPermissions(): void {
-        this.buttonPermissions = [RoleNames.ADMIN, UserAdminPermissionsService.createUserEntity];
-    }
-<% } else { %>
-<% }%>    
-
-
 }

@@ -1,45 +1,47 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
-  <%= classify(name) %>DataService,
-  <%= classify(name) %>Entity,
-  <%= classify(name) %>EntityAdd,
-  <%= classify(name) %>EntityUpdate,
-} from '<%= apiPath %>/<%= dasherize(name) %>';
+    <%= classify(name) %>DataService, <%= classify(name) %>Entity, <%= classify(name) %>EntityAdd, <%= classify(name) %>EntityUpdate, <%= classify(name) %>Model
+} from '<%= apiPath %>	/<%= dasherize(name) %>';
+import { environment } from 'src/environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 
-
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConfigService } from '<%= corePath %>/config';
+
 
 @Injectable()
 export class <%= classify(name) %>DataServiceImpl extends <%= classify(name) %>DataService {
-  private apiUrl = 'http://localhost:3000/api';
 
-  public <%= camelize(name) %>Url: string = '';
+  public url: string = '';
 
-  constructor(private http: HttpClient) {
+  private headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});   // fenti két sor egy sorban
+
+  constructor(private http: HttpClient, private config: ConfigService) {
     super();
 
-    this.<%= camelize(name) %>Url = this.apiUrl + '/<%= dasherize(name) %>'
+    this.url = this.config.get('apiUrl') + '/<%= camelize(name) %>';
+
   }
 
-  public add$(<%= camelize(name) %>: <%= classify(name) %>EntityAdd): Observable<<%= classify(name) %>Entity> {
-    return this.http.post<<%= classify(name) %>Entity>(`${this.<%= camelize(name) %>Url}`, <%= camelize(name) %>);
+  public override add$(<%= camelize(name) %>: <%= classify(name) %>EntityAdd): Observable<<%= classify(name) %>Entity> {
+    return this.http.post<<%= classify(name) %>Entity>(`${this.url}`, <%= camelize(name) %>, {headers: this.headers});
   }
 
-  public get$(id: string): Observable<<%= classify(name) %>Entity | undefined> {
-    return this.http.get<<%= classify(name) %>Entity>(this.<%= camelize(name) %>Url + '/' + id);
+  public override get$(<%= camelize(name) %>Id: string): Observable<<%= classify(name) %>Entity | undefined> {
+    return this.http.get<<%= classify(name) %>Entity>(this.url + '/' + <%= camelize(name) %>Id, {headers: this.headers});
   }
 
-  public list$(): Observable<<%= classify(name) %>Entity[]> {
-    return this.http.get<<%= classify(name) %>Entity[]>(this.<%= camelize(name) %>Url + '/all');
+  public override list$(): Observable<<%= classify(name) %>Entity[]> {
+    return this.http.get<<%= classify(name) %>Entity[]>(this.url + '/all', {headers: this.headers});
   }
 
-  public update$(
-    <%= camelize(name) %>: <%= classify(name) %>EntityUpdate
-  ): Observable<<%= classify(name) %>EntityUpdate> {
-    return this.http.patch<<%= classify(name) %>EntityUpdate>(
-      `${this.<%= camelize(name) %>Url}/${<%= camelize(name) %>.id}`,
-      <%= camelize(name) %>
-    );
+  public override update$(<%= camelize(name) %>: <%= classify(name) %>EntityUpdate): Observable<<%= classify(name) %>EntityUpdate> {             // mivel van <%= classify(name) %>EntityUpdate típusom, így meghívhatom rá a PATCH-et, amivel lehet csak 1 property-t fogok updatelni
+      return this.http.put<<%= classify(name) %>EntityUpdate>(`${this.url}/${<%= camelize(name) %>.id}`, <%= camelize(name) %>, {headers: this.headers} );   // így nem vagyok köteles minden property-t átadni... lehet csak a name: lesz benne, a zip: az nem
   }
+
+  public override patch$(<%= camelize(name) %>: <%= classify(name) %>EntityUpdate): Observable<<%= classify(name) %>EntityUpdate> {             // mivel van <%= classify(name) %>EntityUpdate típusom, így meghívhatom rá a PATCH-et, amivel lehet csak 1 property-t fogok updatelni    
+      return this.http.patch<<%= classify(name) %>EntityUpdate>(`${this.url}/${<%= camelize(name) %>.id}`, <%= camelize(name) %>, {headers: this.headers} );   // így nem vagyok köteles minden property-t átadni... lehet csak a name: lesz benne, a zip: az nem
+  }
+
 }

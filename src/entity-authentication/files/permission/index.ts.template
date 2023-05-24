@@ -1,4 +1,0 @@
-export * from './actions.service';
-export * from './action.enum';
-export * from './permissions.service';
-export * from './resource.enum';

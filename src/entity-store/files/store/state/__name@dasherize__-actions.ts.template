@@ -42,16 +42,6 @@ export const list<%= classify(name) %>sSuccess = createAction(
     props<{ <%= camelize(name) %>s: <%= classify(name) %>Entity[] }>()
 );
 
-export const selectEntity = createAction(
-	'[<%= classify(name) %> Admin] Select <%= classify(name) %>',
-	props<{ <%= camelize(name) %>: <%= classify(name) %>Entity | null }>()
-);
-
-export const selectEntitySuccess = createAction(
-	'[<%= classify(name) %> Admin] Select <%= classify(name) %> Success',
-	props<{ <%= camelize(name) %>: <%= classify(name) %>Entity }>()
-);
-
 export const list<%= classify(name) %>sFail = createAction(
     '[<%= classify(name) %> Admin] List <%= classify(name) %>s Fail',
     props<{ error: string }>()

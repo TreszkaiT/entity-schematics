@@ -8,18 +8,14 @@ import { <%= classify(name) %>FormService } from './<%= dasherize(name) %>-form.
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [<%= classify(name) %>FormService],
-    selector: `app-<%= dasherize(name) %>-form`,
+    selector: 'app-<%= dasherize(name) %>-form',
     templateUrl: './<%= dasherize(name) %>-form.component.html',
     styleUrls: ['./<%= dasherize(name) %>-form.component.scss'],
-
 })
 export class <%= classify(name) %>FormComponent implements OnInit {
-    public value = 'fdfdf';
     public params$!: Observable<<%= classify(name) %>FormParams>;
-    
-    public constructor(protected componentService: <%= classify(name) %>FormService) {
 
-    }
+    public constructor(private componentService: <%= classify(name) %>FormService) {}
 
     public cancel(): void {
         this.componentService.cancel();

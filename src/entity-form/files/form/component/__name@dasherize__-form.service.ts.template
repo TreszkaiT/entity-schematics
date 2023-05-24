@@ -12,7 +12,6 @@ import {
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoleEntity, RoleStateService } from '<%= apiPath %>/role';
 
 @Injectable()
 export class <%= classify(name) %>FormService {
@@ -25,7 +24,7 @@ export class <%= classify(name) %>FormService {
         private activatedRoute: ActivatedRoute,
         private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService,
         private <%= camelize(name) %>UtilService: <%= classify(name) %>UtilService,
-        private roleStateService: RoleStateService,
+
         private router: Router
     ) {
         this.params$$ = new ReplaySubject();
@@ -37,18 +36,18 @@ export class <%= classify(name) %>FormService {
         });
     }
 
-    public init$(): Observable<<%= classify(name) %>FormParams> {
+    public init$(): Observable<<%= classify(name) %>FormParams> {  // a logika, mely a <%= classify(name) %>-t dropdown menüben betölti a <%= classify(name) %>-hez
         return this.activatedRoute.params.pipe(
             switchMap((data) =>
                 combineLatest([
                     this.<%= camelize(name) %>StoreService.selectEntity$(data['<%= camelize(name) %>Id']),
-                    this.roleStateService.selectEntityList$()
+                    this.<%= camelize(name) %>yStoreService.selectEntityList$()
                 ])
             ),
-            switchMap(([<%= camelize(name) %>, roles]) => {
+            switchMap(([<%= camelize(name) %>, <%= camelize(name) %>s]) => {
                 this.<%= camelize(name) %> = <%= camelize(name) %>;
                 this.formGroup = this.<%= camelize(name) %>UtilService.createFormGroup(<%= camelize(name) %>);
-                this.params = this.create<%= classify(name) %>Params(this.formGroup, roles);
+                this.params = this.create<%= classify(name) %>Params(this.formGroup, <%= camelize(name) %>s);
 
                 this.params$$.next(this.params);
 
@@ -61,11 +60,11 @@ export class <%= classify(name) %>FormService {
         console.log(file);
     }
 
-    public submit(): void {
-        if (this.<%= camelize(name) %>) {
-            this.update<%= classify(name) %>();
+    public submit(): void {                     // ha a Submit-ra kattintok, akkor
+        if (this.<%= camelize(name) %>) {                        // ha van már ilyen <%= classify(name) %>, akkor
+            this.update<%= classify(name) %>();                  // updatelem
         } else {
-            this.add<%= classify(name) %>();
+            this.add<%= classify(name) %>();                     // amúgy meg létrehozom
         }
 
         this.router.navigate(['../../list'], {
@@ -73,25 +72,25 @@ export class <%= classify(name) %>FormService {
         });
     }
 
-    private add<%= classify(name) %>(): void {
-        const <%= camelize(name) %>: <%= classify(name) %>EntityAdd = this.<%= camelize(name) %>UtilService.createEntity(
+    private add<%= classify(name) %>(): void {       // a <%= camelize(name) %>UtilService-el készít nekünk egy új <%= classify(name) %>t
+        const <%= camelize(name) %>: <%= classify(name) %>EntityAdd = this.<%= camelize(name) %>UtilService.createEntity(       // itt a util/service/ -ben van
             this.params.formGroup
         );
 
         this.<%= camelize(name) %>StoreService.dispatchAddEntityAction(<%= camelize(name) %>);
     }
 
-    private create<%= classify(name) %>Params(formGroup: FormGroup, roles: RoleEntity[]): <%= classify(name) %>FormParams {
+    private create<%= classify(name) %>Params(formGroup: FormGroup, <%= camelize(name) %>s: <%= classify(name) %>Entity[]): <%= classify(name) %>FormParams {
         const <%= camelize(name) %>FormParams: <%= classify(name) %>FormParams = {
+            <%= camelize(name) %>s,
             formGroup,
-            roles
         };
 
         return <%= camelize(name) %>FormParams;
     }
 
-    private update<%= classify(name) %>(): void {
-        const <%= camelize(name) %>: <%= classify(name) %>EntityUpdate = this.<%= camelize(name) %>UtilService.updateEntity(
+    private update<%= classify(name) %>(): void {       // a <%= camelize(name) %>UtilService-el készít nekünk egy létező <%= classify(name) %>t, amit majd be tudunk updatelni
+        const <%= camelize(name) %>: <%= classify(name) %>EntityUpdate = this.<%= camelize(name) %>UtilService.updateEntity(       // itt a util/service/ -ben van
             this.params.formGroup
         );
 

@@ -9,5 +9,6 @@ export class <%= classify(name) %>ListPageResolverService implements Resolve<voi
 
     public resolve(): void {
         this.<%= camelize(name) %>StoreService.dispatchChangeNewEntityButtonEnabled(true);
+        this.<%= camelize(name) %>StoreService.dispatchListEntitiesAction();
     }
 }
