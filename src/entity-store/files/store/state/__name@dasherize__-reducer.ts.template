@@ -5,9 +5,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import * as <%= camelize(name) %>Actions from './<%= dasherize(name) %>.actions';
 
-
-
-export interface State extends EntityState<<%= classify(name) %>Entity> {            // State elkészül itt: ids: és entities: property-k azok eleve elkszünek az EntityState-ben. Itt benne, ezekkel nekem már nem kell foglalkozni!!!
+export interface <%= classify(name) %>State extends EntityState<<%= classify(name) %>Entity> {            // State elkészül itt: ids: és entities: property-k azok eleve elkszünek az EntityState-ben. Itt benne, ezekkel nekem már nem kell foglalkozni!!!
     isNewEntityButtonEnabled: boolean;
     selectedId?: string;
     loading: boolean;
@@ -15,7 +13,7 @@ export interface State extends EntityState<<%= classify(name) %>Entity> {       
 }
 
 export interface <%= classify(name) %>PartialState {                 // service.impl-ben adom meg hogy tt -->
-    readonly [<%= name.toUpperCase() %>_FEATURE_KEY]: State;
+    readonly [<%= name.toUpperCase() %>_FEATURE_KEY]: <%= classify(name) %>State;
 }
 
 export const <%= camelize(name) %>Adapter: EntityAdapter<<%= classify(name) %>Entity> =
@@ -23,7 +21,7 @@ export const <%= camelize(name) %>Adapter: EntityAdapter<<%= classify(name) %>En
         selectId: (model: <%= classify(name) %>Entity) => model.id,      // itt adhatom meg, hogy az érkező Entity-knek mi legyen az elsődleges kulcsa, amit használok a Stateben
     });
 
-export const initialState: State = <%= camelize(name) %>Adapter.getInitialState({        // <%= camelize(name) %>Adapter segítségével készítúnk egy initialState-t. Ez megjelenik amúgy az authentication.reducer.ts-ben is
+export const initialState: <%= classify(name) %>State = <%= camelize(name) %>Adapter.getInitialState({        // <%= camelize(name) %>Adapter segítségével készítúnk egy initialState-t. Ez megjelenik amúgy az authentication.reducer.ts-ben is
     isNewEntityButtonEnabled: true,                                 // Ekkor készül el maga a Reducer, és ezel az Obj.al: initialState fogja inicializálni az adott State állapotát
     loading: false,
 });
@@ -71,6 +69,6 @@ const <%= camelize(name) %>Reducer = createReducer(
     on(<%= camelize(name) %>Actions.update<%= classify(name) %>Fail, (state, { error }) => ({ ...state, error }))
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: <%= classify(name) %>State | undefined, action: Action) {
     return <%= camelize(name) %>Reducer(state, action);
 }

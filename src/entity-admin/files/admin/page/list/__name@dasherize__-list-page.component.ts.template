@@ -8,6 +8,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrls: ['./<%= dasherize(name) %>-list-page.component.scss'],
 })
 export class <%= classify(name) %>ListPageComponent {}
-  
-
-

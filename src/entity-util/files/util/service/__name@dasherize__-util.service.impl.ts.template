@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Injectable()
 export class <%= classify(name) %>UtilServiceImpl extends <%= classify(name) %>UtilService {
     public _sort = (a: <%= classify(name) %>Entity, b: <%= classify(name) %>Entity): number =>
-        a.email < b.email ? 1 : -1;
+        a.name < b.name ? 1 : -1;
 
     public constructor(private formBuilder: FormBuilder) {
         super();

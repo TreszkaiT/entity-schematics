@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 
 import { <%= classify(name) %>Entity, <%= classify(name) %>EntityAdd, <%= classify(name) %>EntityUpdate } from './<%= dasherize(name) %>';
 
-export abstract class <%= classify(name) %>StateService {
+export abstract class <%= classify(name) %>StoreService {
     public abstract dispatchAddEntityAction(entity: <%= classify(name) %>EntityAdd): void;
     public abstract dispatchChangeNewEntityButtonEnabled(enabled: boolean): void;
     public abstract dispatchGetEntityAction(id: string): void;

@@ -3,38 +3,38 @@ import { <%= name.toUpperCase() %>_FEATURE_KEY, <%= classify(name) %>Entity } fr
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { State, <%= camelize(name) %>Adapter } from './<%= dasherize(name) %>.reducer';
+import { <%= classify(name) %>State, <%= camelize(name) %>Adapter } from './<%= dasherize(name) %>.reducer';
 
-export const get<%= classify(name) %>State = createFeatureSelector<State>(<%= name.toUpperCase() %>_FEATURE_KEY);
+export const get<%= classify(name) %>State = createFeatureSelector<<%= classify(name) %>State>(<%= name.toUpperCase() %>_FEATURE_KEY);
 
 const { selectAll, selectEntities } = <%= camelize(name) %>Adapter.getSelectors();           // Reducer-ben lévő <%= camelize(name) %>Adapter segítségével tudok gyorsan selectálni <%= classify(name) %>Entity-ket itt letebb
 
 export const get<%= classify(name) %>Loading = createSelector(
     get<%= classify(name) %>State,
-    (state: State) => state.loading
+    (state: <%= classify(name) %>State) => state.loading
 );
 
 export const get<%= classify(name) %>Error = createSelector(
     get<%= classify(name) %>State,
-    (state: State) => state.error
+    (state: <%= classify(name) %>State) => state.error
 );
 
-export const getAll<%= classify(name) %> = createSelector(get<%= classify(name) %>State, (state: State) =>
+export const getAll<%= classify(name) %> = createSelector(get<%= classify(name) %>State, (state: <%= classify(name) %>State) =>
     selectAll(state)
 );
 
-export const get<%= classify(name) %>Entities = createSelector(get<%= classify(name) %>State, (state: State) =>
+export const get<%= classify(name) %>Entities = createSelector(get<%= classify(name) %>State, (state: <%= classify(name) %>State) =>
     selectEntities(state)
 );
 
 export const getSelectedId = createSelector(
     get<%= classify(name) %>State,
-    (state: State) => state.selectedId || ''
+    (state: <%= classify(name) %>State) => state.selectedId || ''
 );
 
 export const isNewEntityButtonEnabled = createSelector(
 	get<%= classify(name) %>State,
-	(state: State) => state.isNewEntityButtonEnabled
+	(state: <%= classify(name) %>State) => state.isNewEntityButtonEnabled
 );
 
 export const select<%= classify(name) %> = createSelector(

@@ -40,14 +40,13 @@ export class <%= classify(name) %>FormService {
         return this.activatedRoute.params.pipe(
             switchMap((data) =>
                 combineLatest([
-                    this.<%= camelize(name) %>StoreService.selectEntity$(data['<%= camelize(name) %>Id']),
-                    this.<%= camelize(name) %>yStoreService.selectEntityList$()
+                    this.<%= camelize(name) %>StoreService.selectEntity$(data['<%= camelize(name) %>Id']),                    
                 ])
             ),
-            switchMap(([<%= camelize(name) %>, <%= camelize(name) %>s]) => {
+            switchMap(([<%= camelize(name) %>]) => {
                 this.<%= camelize(name) %> = <%= camelize(name) %>;
                 this.formGroup = this.<%= camelize(name) %>UtilService.createFormGroup(<%= camelize(name) %>);
-                this.params = this.create<%= classify(name) %>Params(this.formGroup, <%= camelize(name) %>s);
+                this.params = this.create<%= classify(name) %>Params(this.formGroup);
 
                 this.params$$.next(this.params);
 
@@ -80,9 +79,8 @@ export class <%= classify(name) %>FormService {
         this.<%= camelize(name) %>StoreService.dispatchAddEntityAction(<%= camelize(name) %>);
     }
 
-    private create<%= classify(name) %>Params(formGroup: FormGroup, <%= camelize(name) %>s: <%= classify(name) %>Entity[]): <%= classify(name) %>FormParams {
+    private create<%= classify(name) %>Params(formGroup: FormGroup): <%= classify(name) %>FormParams {
         const <%= camelize(name) %>FormParams: <%= classify(name) %>FormParams = {
-            <%= camelize(name) %>s,
             formGroup,
         };
 
