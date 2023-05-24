@@ -1,0 +1,22 @@
+import { Observable } from 'rxjs';
+import { ConfigDataService, ConfigEntity } from '<%= apiPath %>/config';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class ConfigDataServiceImpl extends ConfigDataService {
+    public uri = 'localhost:3000';
+
+    public constructor(private httpClient: HttpClient) {
+        super();
+    }
+
+    public override get$(userId: string): Observable<ConfigEntity | null> {
+        return this.httpClient.get<ConfigEntity>(`${this.uri}/config/${userId}`);
+    }
+
+    public override update$(config: ConfigEntity): Observable<ConfigEntity> {
+        return this.httpClient.patch<ConfigEntity>(`${this.uri}/config`, config);
+    }
+}

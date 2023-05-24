@@ -1,0 +1,86 @@
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { <%= classify(name) %>DataService } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import * as <%= camelize(name) %>Actions from './<%= dasherize(name) %>.actions';
+
+@Injectable()
+export class <%= classify(name) %>Effects {
+    add<%= classify(name) %>$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(<%= camelize(name) %>Actions.add<%= classify(name) %>),
+            switchMap((action) =>
+                this.<%= camelize(name) %>DataService.add$(action.<%= camelize(name) %>).pipe(
+                    map((<%= camelize(name) %>) => {
+                        return <%= camelize(name) %>Actions.add<%= classify(name) %>Success({ <%= camelize(name) %> });
+                    }),
+                    catchError((error) => {
+                        return of(<%= camelize(name) %>Actions.add<%= classify(name) %>Fail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    get<%= classify(name) %>$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(<%= camelize(name) %>Actions.get<%= classify(name) %>),
+            switchMap((action) =>
+                this.<%= camelize(name) %>DataService.get$(action.id).pipe(
+                    map((<%= camelize(name) %>) => {
+                        return <%= camelize(name) %>Actions.get<%= classify(name) %>Success({
+                            <%= camelize(name) %>: <%= camelize(name) %> || null,
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(<%= camelize(name) %>Actions.get<%= classify(name) %>Fail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    list<%= classify(name) %>s$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(<%= camelize(name) %>Actions.list<%= classify(name) %>s),
+            switchMap((action) =>
+                this.<%= camelize(name) %>DataService.list$().pipe(
+                    map((<%= camelize(name) %>s) => {
+                        return <%= camelize(name) %>Actions.list<%= classify(name) %>sSuccess({
+                            <%= camelize(name) %>s,
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(<%= camelize(name) %>Actions.list<%= classify(name) %>sFail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    update<%= classify(name) %>$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(<%= camelize(name) %>Actions.update<%= classify(name) %>),
+            switchMap((action) =>
+                this.<%= camelize(name) %>DataService.update$(action.<%= camelize(name) %>).pipe(
+                    map((<%= camelize(name) %>) => {
+                        return <%= camelize(name) %>Actions.update<%= classify(name) %>Success({
+                            <%= camelize(name) %>: {
+                                changes: { ...<%= camelize(name) %> },
+                                id: (<%= camelize(name) %> && <%= camelize(name) %>.id) || '',
+                            },
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(<%= camelize(name) %>Actions.update<%= classify(name) %>Fail({ error }));
+                    })
+                )
+            )
+        )
+    );
+
+    public constructor(
+        private actions$: Actions,
+        private <%= camelize(name) %>DataService: <%= classify(name) %>DataService
+    ) {}
+}

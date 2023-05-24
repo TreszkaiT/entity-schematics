@@ -1,0 +1,86 @@
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { RoleDataService } from '<%= apiPath %>/role';
+
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import * as roleActions from './role.actions';
+
+@Injectable()
+export class RoleEffects {
+    addRole$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(roleActions.addRole),
+            switchMap((action) =>
+                this.roleDataService.add$(action.role).pipe(
+                    map((role) => {
+                        return roleActions.addRoleSuccess({ role });
+                    }),
+                    catchError((error) => {
+                        return of(roleActions.addRoleFail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    getRole$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(roleActions.getRole),
+            switchMap((action) =>
+                this.roleDataService.get$(action.id).pipe(
+                    map((role) => {
+                        return roleActions.getRoleSuccess({
+                            role: role || null,
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(roleActions.getRoleFail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    listRoles$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(roleActions.listRoles),
+            switchMap((action) =>
+                this.roleDataService.list$().pipe(
+                    map((roles) => {
+                        return roleActions.listRolesSuccess({
+                            roles,
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(roleActions.listRolesFail({ error }));
+                    })
+                )
+            )
+        )
+    );
+    updateRole$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(roleActions.updateRole),
+            switchMap((action) =>
+                this.roleDataService.update$(action.role).pipe(
+                    map((role) => {
+                        return roleActions.updateRoleSuccess({
+                            role: {
+                                changes: { ...role },
+                                id: (role && role.id) || '',
+                            },
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(roleActions.updateRoleFail({ error }));
+                    })
+                )
+            )
+        )
+    );
+
+    public constructor(
+        private actions$: Actions,
+        private roleDataService: RoleDataService
+    ) {}
+}

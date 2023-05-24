@@ -1,0 +1,11 @@
+import { Observable } from 'rxjs';
+
+import { <%= classify(name) %>Entity } from '../<%= dasherize(name) %>';
+import { RegistrationModel } from './authentication';
+
+export abstract class AuthenticationStateService {
+  public abstract dispatchLogin(<%= camelize(name) %>: <%= classify(name) %>Entity):                                  void;
+  public abstract dispatchRegistrationAction(registrationModel: RegistrationModel): void;
+  public abstract isLoggedIn$():                                                    Observable<boolean>;
+  public abstract selectAuthenticated<%= classify(name) %>$():                                       Observable<<%= classify(name) %>Entity | null>;
+}

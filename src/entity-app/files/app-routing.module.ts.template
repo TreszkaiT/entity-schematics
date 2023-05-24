@@ -1,0 +1,47 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { RoleNames } from './api/role';
+import { AdminPermissionsService } from './page/admin/permissions';
+
+const routes: Routes = [
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'introduction',
+    },
+    {
+        path: 'introduction',
+        loadChildren: () =>
+            import('./page/introduction/introduction-page.module').then(
+                (module) => module.IntroductionPageModule
+            ),
+    },
+    {
+        path: 'config',
+        loadChildren: () =>
+            import('./page/config/config-page.module').then(
+                (module) => module.ConfigPageModule
+            ),
+    },
+    {
+        canActivate: [NgxPermissionsGuard],
+        path: 'admin',
+        data: {
+            permissions: {
+                only: [RoleNames.ADMIN, AdminPermissionsService.viewAdminPage],
+                redirectTo: '/error',
+            },
+        },
+        loadChildren: () =>
+            import('./page/admin/admin-page.module').then(
+                (module) => module.AdminPageModule
+            ),
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+})
+export class AppRoutingModule {}

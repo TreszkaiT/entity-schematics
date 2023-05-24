@@ -1,0 +1,10 @@
+import { Observable } from 'rxjs';
+import { LoginModel, RegistrationModel } from '<%= apiPath %>/authentication';
+import { <%= classify(name) %>Entity } from '<%= apiPath %>/user';
+
+export abstract class AuthenticationDataService {
+  public authenticated<%= classify(name) %>!: <%= classify(name) %>Entity | null;
+
+  public abstract login$(<%= camelize(name) %>: <%= classify(name) %>Entity):                         Observable<<%= classify(name) %>Entity | null>;
+  public abstract register$(registrationModel: RegistrationModel):  Observable<true>;
+}

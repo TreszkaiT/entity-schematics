@@ -1,0 +1,28 @@
+import { Observable, of } from 'rxjs';
+import { ConfigEntity, ConfigStoreService } from '<%= apiPath %>/config';
+
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import * as configActions from '../state/config.action';
+import { ConfigPartialState } from '../state/config.reducer';
+import * as configSelectors from '../state/config.selectors';
+
+@Injectable()
+export class ConfigStoreServiceImpl extends ConfigStoreService {
+    public constructor(private store: Store<ConfigPartialState>) {
+        super();
+    }
+
+    public override dispatchGetEntityAction(userId: string): void {
+        this.store.dispatch(configActions.getEntity({ userId }));
+    }
+
+    public override dispatchUpdateEntityAction(entity: ConfigEntity): void {
+        this.store.dispatch(configActions.updateEntity({ entity }));
+    }
+
+    public override selectEntity$(): Observable<ConfigEntity> {
+        return this.store.pipe(select(configSelectors.selectConfig));
+    }
+}

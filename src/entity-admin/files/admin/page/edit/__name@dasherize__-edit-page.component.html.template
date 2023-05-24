@@ -1,0 +1,3 @@
+<div class="<%= dasherize(name) %>-edit">
+	<app-<%= dasherize(name) %>-form></app-<%= dasherize(name) %>-form>
+</div>

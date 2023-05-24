@@ -1,0 +1,21 @@
+import { Observable } from 'rxjs';
+
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+import { <%= classify(name) %>StoreService } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+
+@Injectable()
+export class <%= classify(name) %>EditPageResolverService implements Resolve<void> {
+	public constructor(private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService) {}
+
+	public resolve(): void | Observable<void> | Promise<void> {
+		this.<%= camelize(name) %>StoreService.dispatchChangeNewEntityButtonEnabled(false);
+
+		<% if (authorization) { %>
+		this.roleStateService.dispatchListEntitiesAction();
+		<% } else { %>
+		<% }%>    
+
+	}
+}

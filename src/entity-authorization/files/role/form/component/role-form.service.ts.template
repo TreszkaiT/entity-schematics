@@ -1,0 +1,99 @@
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import {
+    RoleEntity,
+    RoleEntityAdd,
+    RoleEntityUpdate,
+    RoleFormParams,
+    RoleStateService,
+    RoleUtilService,
+} from '<%= apiPath %>/role';
+
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PermissionsService } from '<%= apiPath %>/permission';
+
+@Injectable()
+export class RoleFormService {
+    private formGroup!: FormGroup;
+    private params!: RoleFormParams;
+    private params$$: ReplaySubject<RoleFormParams>;
+    private role!: RoleEntity | undefined;
+
+    public constructor(
+        private activatedRoute: ActivatedRoute,
+        private roleStateService: RoleStateService,
+        private roleUtilService: RoleUtilService,
+
+        private router: Router
+    ) {
+        this.params$$ = new ReplaySubject();
+    }
+
+    public cancel(): void {
+        this.router.navigate(['../../list'], {
+            relativeTo: this.activatedRoute,
+        });
+    }
+
+    public init$(): Observable<RoleFormParams> {
+        return this.activatedRoute.params.pipe(
+            switchMap((data) =>
+                combineLatest([
+                    this.roleStateService.selectEntity$(data['roleId']),
+                ])
+            ),
+            switchMap(([role]) => {
+                this.role = role;
+                this.formGroup = this.roleUtilService.createFormGroup(role);
+                this.params = this.createRoleParams(this.formGroup);
+
+                this.params$$.next(this.params);
+
+                return this.params$$;
+            })
+        );
+    }
+
+    public mainImageUpload(file: File): void {
+        console.log(file);
+    }
+
+    public submit(): void {
+        if (this.role) {
+            this.updateRole();
+        } else {
+            this.addRole();
+        }
+
+        this.router.navigate(['../../list'], {
+            relativeTo: this.activatedRoute,
+        });
+    }
+
+    private addRole(): void {
+        const role: RoleEntityAdd = this.roleUtilService.createEntity(
+            this.params.formGroup
+        );
+
+        this.roleStateService.dispatchAddEntityAction(role);
+    }
+
+    private createRoleParams(formGroup: FormGroup): RoleFormParams {        // 
+        const roleFormParams: RoleFormParams = {
+            formGroup,
+            permissions: PermissionsService.permissions                     // Ez be Setteli a választható Permission-okat ebbe a permissions: paraméterbe, amit az src/app/page/admin/component/admin/admin-page.component.ts-ben a construktorában húzunk be
+        };
+
+        return roleFormParams;
+    }
+
+    private updateRole(): void {
+        const role: RoleEntityUpdate = this.roleUtilService.updateEntity(
+            this.params.formGroup
+        );
+
+        this.roleStateService.dispatchUpdateEntityAction(role);
+    }
+}

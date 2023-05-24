@@ -1,0 +1,24 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+
+import { SharedModule } from '../../common';
+import { RoleFormComponent } from './component';
+import { MultiSelectModule } from 'primeng/multiselect';
+
+@NgModule({
+    declarations: [RoleFormComponent],
+    exports: [RoleFormComponent],
+    imports: [
+        CommonModule,
+        MultiSelectModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        SharedModule,
+        ButtonModule
+    ],
+})
+export class RoleFormModule {}

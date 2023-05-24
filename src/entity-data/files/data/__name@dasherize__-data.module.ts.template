@@ -1,0 +1,17 @@
+import { <%= classify(name) %>DataService } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { <%= classify(name) %>DataServiceImpl } from './service';
+
+@NgModule({
+    imports: [CommonModule],
+    providers: [
+        {
+            provide: <%= classify(name) %>DataService,
+            useClass:<%= classify(name) %>DataServiceImpl,
+        },
+    ],
+})
+export class <%= classify(name) %>DataModule {}

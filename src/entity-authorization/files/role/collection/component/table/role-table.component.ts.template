@@ -1,0 +1,36 @@
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
+import { RoleTableService } from './role-table.service';
+import { RoleEntity, RoleNames, RoleTableParams } from '<%= apiPath %>/role';
+import { RoleAdminPermissionsService } from '../../../admin/service';
+
+@Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [RoleTableService],
+	selector: 'app-role-table',
+	templateUrl: './role-table.component.html',
+	styleUrls: ['./role-table.component.scss'],
+})
+export class RoleTableComponent implements OnInit {
+	public buttonPermissions: string[] = [];
+	public params$!: Observable<RoleTableParams>;
+
+	public constructor(private componentService: RoleTableService) {
+	}
+
+	public editRole(role: RoleEntity): void {
+		this.componentService.editRole(role);
+	}
+
+	public ngOnInit(): void {
+		this.params$ = this.componentService.init$();
+
+		this.initButtonPermissions();
+	}
+
+	private initButtonPermissions(): void {
+        this.buttonPermissions = [RoleNames.ADMIN, RoleAdminPermissionsService.updateRoleEntity];
+    }
+}

@@ -1,0 +1,26 @@
+import { <%= classify(name) %>StoreService, USER_FEATURE_KEY } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
+import { <%= classify(name) %>StoreServiceImpl } from './state/<%= dasherize(name) %>-store.service.impl';
+import { <%= classify(name) %>Effects } from './state/<%= dasherize(name) %>.effects';
+import * as from<%= classify(name) %> from './state/<%= dasherize(name) %>.reducer';
+
+@NgModule({
+    imports: [
+        CommonModule,
+        //StoreModule.forFeature(from<%= classify(name) %>.USER_FEATURE_KEY, from<%= classify(name) %>.reducer),
+        StoreModule.forFeature(USER_FEATURE_KEY, from<%= classify(name) %>.reducer),
+        EffectsModule.forFeature([<%= classify(name) %>Effects]),
+    ],
+    providers: [
+        {
+            provide: <%= classify(name) %>StoreService,
+            useClass: <%= classify(name) %>StoreServiceImpl,
+        },
+    ],
+})
+export class <%= classify(name) %>StoreModule {}

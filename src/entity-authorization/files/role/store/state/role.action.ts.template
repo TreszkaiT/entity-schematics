@@ -1,0 +1,73 @@
+import { RoleEntity, RoleEntityAdd, RoleEntityUpdate } from '<%= apiPath %>/role';
+
+import { Update } from '@ngrx/entity';
+import { createAction, props } from '@ngrx/store';
+
+export const addRole = createAction(
+    '[Role Admin] Add Role',
+    props<{ role: RoleEntityAdd }>()
+);
+
+export const addRoleFail = createAction(
+    '[Role Admin] Add Role Fail',
+    props<{ error: string }>()
+);
+
+export const addRoleSuccess = createAction(
+    '[Role Admin] Add Role Success',
+    props<{ role: RoleEntity }>()
+);
+
+export const getRole = createAction('[Role] Get Role', props<{ id: string }>());
+
+export const getRoleSuccess = createAction(
+    '[Role] Get Role Success',
+    props<{ role: RoleEntity | null }>()
+);
+
+export const getRoleFail = createAction(
+    '[Role] Get Role Fail',
+    props<{ error: string }>()
+);
+
+export const changeNewEntityButtonEnabled = createAction(
+	'[Role Admin] Change new Entity Button Enabled',
+	props<{ enabled: boolean }>()
+); 
+
+export const listRoles = createAction('[Role Admin] List Roles');
+
+export const listRolesSuccess = createAction(
+    '[Role Admin] List Roles Success',
+    props<{ roles: RoleEntity[] }>()
+);
+
+export const selectEntity = createAction(
+	'[Role Admin] Select Role',
+	props<{ role: RoleEntity | null }>()
+);
+
+export const selectEntitySuccess = createAction(
+	'[Role Admin] Select Role Success',
+	props<{ role: RoleEntity }>()
+);
+
+export const listRolesFail = createAction(
+    '[Role Admin] List Roles Fail',
+    props<{ error: string }>()
+);
+
+export const updateRole = createAction(
+    '[Role Admin] Update Role',
+    props<{ role: RoleEntityUpdate }>()
+);
+
+export const updateRoleFail = createAction(
+    '[Role Admin] Update Role Fail',
+    props<{ error: string }>()
+);
+
+export const updateRoleSuccess = createAction(
+    '[Role Admin] Update Role Success',
+    props<{ role: Update<RoleEntityUpdate> }>()
+);

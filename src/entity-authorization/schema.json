@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "entity-authorization.json",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "name"
+        },
+        "modulePath": {
+            "type": "string",
+            "description": "Module path"
+        },
+        "apiPath": {
+            "type": "string",
+            "description": "Location of api folder. Relative from project root."
+        }
+    },
+    "required": ["name", "modulePath", "apiPath"]
+}

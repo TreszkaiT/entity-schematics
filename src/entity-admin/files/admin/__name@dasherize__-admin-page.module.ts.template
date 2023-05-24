@@ -1,0 +1,46 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { SharedModule } from '../../common';
+import { <%= classify(name) %>CollectionModule } from '../collection/<%= dasherize(name) %>-collection.module';
+import { <%= classify(name) %>FormModule } from '../form/<%= dasherize(name) %>-form.module';
+import { <%= classify(name) %>Module } from '../<%= dasherize(name) %>.module';
+import { <%= classify(name) %>AdminPageComponent } from './page/admin';
+import {
+    <%= classify(name) %>EditPageComponent,
+    <%= classify(name) %>EditPageResolverService,
+} from './page/edit';
+import {
+    <%= classify(name) %>ListPageComponent,
+    <%= classify(name) %>ListPageResolverService,
+} from './page/list';
+import { <%= classify(name) %>AdminPageRoutingModule } from './<%= dasherize(name) %>-admin-page-routing.module';
+
+        <% if (authorization) { %>
+import { NgxPermissionsModule } from 'ngx-permissions';
+        <% } else { %>
+        <% }%>    
+
+@NgModule({
+    declarations: [
+        <%= classify(name) %>AdminPageComponent,
+        <%= classify(name) %>EditPageComponent,
+        <%= classify(name) %>ListPageComponent,
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+
+        <% if (authorization) { %>
+        NgxPermissionsModule,
+        <% } else { %>
+        <% }%>    
+
+        <%= classify(name) %>AdminPageRoutingModule,
+        <%= classify(name) %>FormModule,
+        <%= classify(name) %>CollectionModule,
+        <%= classify(name) %>Module,
+    ],
+    providers: [<%= classify(name) %>EditPageResolverService, <%= classify(name) %>ListPageResolverService],
+})
+export class <%= classify(name) %>AdminPageModule {}

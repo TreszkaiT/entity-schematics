@@ -1,0 +1,26 @@
+import { AUTHENTICATION_FEATURE_KEY } from '<%= apiPath %>/authentication';
+
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+
+import {
+  AuthenticationState,
+} from './authentication.reducer';
+
+export const selectAuthenticationState = createFeatureSelector<
+  AuthenticationState
+>(AUTHENTICATION_FEATURE_KEY);
+
+export const selectAuthenticated<%= classify(name) %> = createSelector(
+  selectAuthenticationState,
+  (state: AuthenticationState) => state.authenticated<%= classify(name) %>
+);
+
+export const isAuthenticated = createSelector(
+  selectAuthenticationState,
+  (state: AuthenticationState) => !!state.authenticated<%= classify(name) %>
+);
+
+export const selectAuthenticationError = createSelector(
+	selectAuthenticationState,
+	(state: AuthenticationState) => !!state.error
+  );

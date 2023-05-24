@@ -1,0 +1,11 @@
+import { Observable } from 'rxjs';
+
+import { RoleEntity, RoleEntityAdd, RoleEntityUpdate } from './role';
+
+export abstract class RoleDataService {
+    public abstract add$(entity: RoleEntityAdd):        Observable<RoleEntity>;
+    public abstract get$(id: string):                   Observable<RoleEntity | undefined>;
+    public abstract list$():                            Observable<RoleEntity[]>;
+    public abstract listByIds$(ids: string[]):          Observable<RoleEntity[]>;
+    public abstract update$(entity: RoleEntityUpdate):  Observable<RoleEntityUpdate>;
+}

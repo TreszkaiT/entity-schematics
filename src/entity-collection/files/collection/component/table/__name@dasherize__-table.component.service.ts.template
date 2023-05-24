@@ -1,0 +1,70 @@
+import { combineLatest, Observable, switchMap, tap } from 'rxjs';
+import {
+    <%= classify(name) %>Entity,
+    <%= classify(name) %>StoreService,
+    <%= classify(name) %>TableParams,
+} from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ComponentStore } from '@ngrx/component-store';
+
+export interface <%= classify(name) %>TableStoreModel {
+    selectedEntity: <%= classify(name) %>Entity | null;
+    <%= camelize(name) %>s: <%= classify(name) %>Entity[] | null;
+}
+
+@Injectable()
+export class <%= classify(name) %>TableComponentService extends ComponentStore<<%= classify(name) %>TableStoreModel> {
+    private readonly <%= camelize(name) %>s$: Observable<<%= classify(name) %>Entity[] | null> = this.select(
+        (state) => state.<%= camelize(name) %>s
+    );
+
+    private readonly selectedEntity$: Observable<<%= classify(name) %>Entity | null> = this.select(
+        (state) => state.selectedEntity
+    );
+
+    private readonly <%= camelize(name) %>TableParams$ = this.select(
+        this.selectedEntity$,this.<%= camelize(name) %>s$, (selectedEntity, <%= camelize(name) %>s) => ({
+        selectedEntity,
+        <%= camelize(name) %>s: <%= camelize(name) %>s || [],
+    }));
+
+    public readonly selectEntity = this.effect((selectEntity$: Observable<<%= classify(name) %>Entity | null>) => {
+        return selectEntity$.pipe(
+          tap((<%= camelize(name) %>) => {
+            this.<%= camelize(name) %>StoreService.dispatchSelectEntityAction(<%= camelize(name) %>);
+          })
+        );
+      });
+
+    public constructor(
+        private activatedRoute: ActivatedRoute,
+        private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService,
+        private router: Router
+    ) {
+        super();
+    }
+
+    public edit<%= classify(name) %>(<%= camelize(name) %>: <%= classify(name) %>Entity): void {
+        this.router.navigate(['../edit', <%= camelize(name) %>?.id], {
+            relativeTo: this.activatedRoute,
+        });
+    }
+
+    public init$(): Observable<<%= classify(name) %>TableParams> {
+        return combineLatest([
+            this.<%= camelize(name) %>StoreService.selectSelectedEntity$(),
+            this.<%= camelize(name) %>StoreService.selectEntityList$()])
+        .pipe(
+            switchMap(([selectedEntity, <%= camelize(name) %>s]) => {
+                this.setState({
+                    selectedEntity,
+                    <%= camelize(name) %>s,
+                });
+
+                return this.<%= camelize(name) %>TableParams$;
+            })
+        );
+    }
+}

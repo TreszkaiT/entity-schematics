@@ -1,0 +1,53 @@
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { ConfigDataService, ConfigEntity } from '<%= apiPath %>/config';
+
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import * as configActions from './config.action';
+
+@Injectable()
+export class ConfigEffects {
+    public getEntity = createEffect(() =>
+        this.actions$.pipe(
+            ofType(configActions.getEntity),
+            switchMap((action) => {
+                return this.configDataService.get$(action.userId).pipe(
+                    map((config) => {
+                        return configActions.getEntitySuccess({
+                            config: config as ConfigEntity,
+                        });
+                    })
+                );
+            }),
+            catchError((error) => {
+                return of(
+                    configActions.getEntityFail({ error: error.message })
+                );
+            })
+        )
+    );
+    public register = createEffect(() =>
+        this.actions$.pipe(
+            ofType(configActions.updateEntity),
+            switchMap((action) => {
+                return this.configDataService
+                    .update$(action.entity)
+                    .pipe(
+                        map((config) =>
+                            configActions.updateEntitySuccess({ config })
+                        )
+                    );
+            }),
+            catchError((error) =>
+                of(configActions.updateEntityFail({ error: error.message }))
+            )
+        )
+    );
+
+    public constructor(
+        private actions$: Actions,
+        private configDataService: ConfigDataService
+    ) {}
+}

@@ -1,0 +1,73 @@
+import { <%= classify(name) %>Entity, <%= classify(name) %>EntityAdd, <%= classify(name) %>EntityUpdate } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Update } from '@ngrx/entity';
+import { createAction, props } from '@ngrx/store';
+
+export const add<%= classify(name) %> = createAction(
+    '[<%= classify(name) %> Admin] Add <%= classify(name) %>',
+    props<{ <%= camelize(name) %>: <%= classify(name) %>EntityAdd }>()
+);
+
+export const add<%= classify(name) %>Fail = createAction(
+    '[<%= classify(name) %> Admin] Add <%= classify(name) %> Fail',
+    props<{ error: string }>()
+);
+
+export const add<%= classify(name) %>Success = createAction(
+    '[<%= classify(name) %> Admin] Add <%= classify(name) %> Success',
+    props<{ <%= camelize(name) %>: <%= classify(name) %>Entity }>()
+);
+
+export const get<%= classify(name) %> = createAction('[<%= classify(name) %>] Get <%= classify(name) %>', props<{ id: string }>());
+
+export const get<%= classify(name) %>Success = createAction(
+    '[<%= classify(name) %>] Get <%= classify(name) %> Success',
+    props<{ <%= camelize(name) %>: <%= classify(name) %>Entity | null }>()
+);
+
+export const get<%= classify(name) %>Fail = createAction(
+    '[<%= classify(name) %>] Get <%= classify(name) %> Fail',
+    props<{ error: string }>()
+);
+
+export const changeNewEntityButtonEnabled = createAction(
+	'[<%= classify(name) %> Admin] Change new Entity Button Enabled',
+	props<{ enabled: boolean }>()
+); 
+
+export const list<%= classify(name) %>s = createAction('[<%= classify(name) %> Admin] List <%= classify(name) %>s');
+
+export const list<%= classify(name) %>sSuccess = createAction(
+    '[<%= classify(name) %> Admin] List <%= classify(name) %>s Success',
+    props<{ <%= camelize(name) %>s: <%= classify(name) %>Entity[] }>()
+);
+
+export const selectEntity = createAction(
+	'[<%= classify(name) %> Admin] Select <%= classify(name) %>',
+	props<{ <%= camelize(name) %>: <%= classify(name) %>Entity | null }>()
+);
+
+export const selectEntitySuccess = createAction(
+	'[<%= classify(name) %> Admin] Select <%= classify(name) %> Success',
+	props<{ <%= camelize(name) %>: <%= classify(name) %>Entity }>()
+);
+
+export const list<%= classify(name) %>sFail = createAction(
+    '[<%= classify(name) %> Admin] List <%= classify(name) %>s Fail',
+    props<{ error: string }>()
+);
+
+export const update<%= classify(name) %> = createAction(
+    '[<%= classify(name) %> Admin] Update <%= classify(name) %>',
+    props<{ <%= camelize(name) %>: <%= classify(name) %>EntityUpdate }>()
+);
+
+export const update<%= classify(name) %>Fail = createAction(
+    '[<%= classify(name) %> Admin] Update <%= classify(name) %> Fail',
+    props<{ error: string }>()
+);
+
+export const update<%= classify(name) %>Success = createAction(
+    '[<%= classify(name) %> Admin] Update <%= classify(name) %> Success',
+    props<{ <%= camelize(name) %>: Update<<%= classify(name) %>EntityUpdate> }>()
+);

@@ -1,0 +1,42 @@
+import {
+    RoleEntity,
+    RoleEntityAdd,
+    RoleEntityUpdate,
+    RoleUtilService,
+} from '<%= apiPath %>/role';
+
+import { Injectable } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Injectable()
+export class RoleUtilServiceImpl extends RoleUtilService {
+    public _sort = (a: RoleEntity, b: RoleEntity): number =>
+        a.name < b.name ? 1 : -1;
+
+    public constructor(private formBuilder: FormBuilder) {
+        super();
+    }
+
+    public createEntity(formGroup: FormGroup): RoleEntityAdd {
+        return {
+            name: formGroup.value['name'],
+            permissions: formGroup.value['permissions'],
+        };
+    }
+
+    public createFormGroup(role: RoleEntity | undefined): FormGroup {
+        return this.formBuilder.group({
+            name: [role?.name, Validators.required],
+            permissions: [role?.permissions],
+            id: [role?.id],
+        });
+    }
+
+    public updateEntity(formGroup: FormGroup): RoleEntityUpdate {
+        return {
+            name: formGroup.value['name'],
+            permissions: formGroup.value['permissions'],
+            id: formGroup.value['id'],
+        };
+    }
+}

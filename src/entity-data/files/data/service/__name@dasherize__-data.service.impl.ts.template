@@ -1,0 +1,45 @@
+import { Observable } from 'rxjs';
+import {
+  <%= classify(name) %>DataService,
+  <%= classify(name) %>Entity,
+  <%= classify(name) %>EntityAdd,
+  <%= classify(name) %>EntityUpdate,
+} from '<%= apiPath %>/<%= dasherize(name) %>';
+
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class <%= classify(name) %>DataServiceImpl extends <%= classify(name) %>DataService {
+  private apiUrl = 'http://localhost:3000/api';
+
+  public <%= camelize(name) %>Url: string = '';
+
+  constructor(private http: HttpClient) {
+    super();
+
+    this.<%= camelize(name) %>Url = this.apiUrl + '/<%= dasherize(name) %>'
+  }
+
+  public add$(<%= camelize(name) %>: <%= classify(name) %>EntityAdd): Observable<<%= classify(name) %>Entity> {
+    return this.http.post<<%= classify(name) %>Entity>(`${this.<%= camelize(name) %>Url}`, <%= camelize(name) %>);
+  }
+
+  public get$(id: string): Observable<<%= classify(name) %>Entity | undefined> {
+    return this.http.get<<%= classify(name) %>Entity>(this.<%= camelize(name) %>Url + '/' + id);
+  }
+
+  public list$(): Observable<<%= classify(name) %>Entity[]> {
+    return this.http.get<<%= classify(name) %>Entity[]>(this.<%= camelize(name) %>Url + '/all');
+  }
+
+  public update$(
+    <%= camelize(name) %>: <%= classify(name) %>EntityUpdate
+  ): Observable<<%= classify(name) %>EntityUpdate> {
+    return this.http.patch<<%= classify(name) %>EntityUpdate>(
+      `${this.<%= camelize(name) %>Url}/${<%= camelize(name) %>.id}`,
+      <%= camelize(name) %>
+    );
+  }
+}

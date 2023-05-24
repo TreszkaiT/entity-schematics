@@ -1,0 +1,69 @@
+import { Observable } from 'rxjs';
+import {
+    RoleEntity,
+    RoleEntityAdd,
+    RoleEntityUpdate,
+    RoleStateService,
+} from '<%= apiPath %>/role';
+
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import * as roleActions from './role.actions';
+import * as fromRole from './role.reducer';
+import * as RoleSelectors from './role.selectors';
+
+@Injectable()
+export class RoleStateServiceImpl extends RoleStateService {
+    public constructor(private store: Store<fromRole.RolePartialState>) {
+        super();
+    }
+
+    public dispatchAddEntityAction(role: RoleEntityAdd): void {
+        this.store.dispatch(roleActions.addRole({ role }));
+    }
+
+    public dispatchChangeNewEntityButtonEnabled(enabled: boolean): void {
+        this.store.dispatch(
+            roleActions.changeNewEntityButtonEnabled({ enabled })
+        );
+    }
+
+    public dispatchGetEntityAction(id: string): void {
+        this.store.dispatch(roleActions.getRole({ id }));
+    }
+
+    public dispatchListEntitiesAction(): void {
+        this.store.dispatch(roleActions.listRoles());
+    }
+
+    public dispatchSelectEntityAction(role: RoleEntity | null): void {
+        this.store.dispatch(roleActions.selectEntity({ role }));
+    }
+
+    public dispatchUpdateEntityAction(role: RoleEntityUpdate): void {
+        this.store.dispatch(roleActions.updateRole({ role }));
+    }
+
+    public isLoading$(): Observable<boolean> {
+        return this.store.pipe(select(RoleSelectors.getRoleLoading));
+    }
+
+    public override selectEntity$(
+        id: string
+    ): Observable<RoleEntity | undefined> {
+        return this.store.pipe(select(RoleSelectors.selectRoleById(id)));
+    }
+
+    public selectEntityList$(): Observable<RoleEntity[]> {
+        return this.store.pipe(select(RoleSelectors.getAllRole));
+    }
+
+    public selectNewEntityButtonEnabled$(): Observable<boolean> {
+        return this.store.pipe(select(RoleSelectors.isNewEntityButtonEnabled));
+    }
+
+    public selectSelectedEntity$(): Observable<RoleEntity | null> {
+        return this.store.pipe(select(RoleSelectors.selectSelectedEntity));
+    }
+}

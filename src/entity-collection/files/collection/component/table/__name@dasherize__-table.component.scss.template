@@ -1,0 +1,5 @@
+.<%= dasherize(name) %>-table {
+	.p-chip.style {
+		background-color: brown;
+	}
+}

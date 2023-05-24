@@ -1,0 +1,35 @@
+import { Observable, of } from 'rxjs';
+import {
+  AuthenticationDataService,
+  LoginModel,
+  RegistrationModel,
+} from '<%= apiPath %>/authentication';
+import { <%= classify(name) %>Entity } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class AuthenticationDataServiceMock extends AuthenticationDataService {
+  private <%= camelize(name) %>!: <%= classify(name) %>Entity | null;
+
+  public constructor(private httpClient: HttpClient) {
+    super();
+  }
+
+  public login$(<%= camelize(name) %>: <%= classify(name) %>Entity): Observable<<%= classify(name) %>Entity | null> {
+    return of(<%= camelize(name) %>);
+  }
+
+  public register$(registrationModel: RegistrationModel): Observable<true> {
+    this.<%= camelize(name) %> = {
+      email: registrationModel.email,
+      firstName: '',
+      lastName: '',
+      displayName: '',
+      id: '1234',
+    };
+
+    return of(true);
+  }
+}

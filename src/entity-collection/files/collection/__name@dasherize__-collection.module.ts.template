@@ -1,0 +1,12 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { SharedModule } from '../../common';
+import { <%= classify(name) %>TableComponent } from './component';
+
+@NgModule({
+    declarations: [<%= classify(name) %>TableComponent],
+    exports: [<%= classify(name) %>TableComponent],
+    imports: [CommonModule, SharedModule],
+})
+export class <%= classify(name) %>CollectionModule {}

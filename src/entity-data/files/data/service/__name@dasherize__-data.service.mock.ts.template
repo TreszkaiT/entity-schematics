@@ -1,0 +1,66 @@
+import { Observable, of } from 'rxjs';
+import {
+    <%= classify(name) %>DataService,
+    <%= classify(name) %>Entity,
+    <%= classify(name) %>EntityAdd,
+    <%= classify(name) %>EntityUpdate,
+} from '<%= apiPath %>/<%= dasherize(name) %>';
+import { v4 as uuidv4 } from 'uuid';
+
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class <%= classify(name) %>DataServiceMock extends <%= classify(name) %>DataService {
+    private <%= camelize(name) %>Map: Map<string, <%= classify(name) %>Entity> = new Map<string, <%= classify(name) %>Entity>();
+
+    public constructor() {
+        super();
+
+        this.<%= camelize(name) %>Map.set('1', {
+            email: 'admin@admin.com',
+            firstName: 'admin',
+            lastName: 'admin',
+            displayName: 'admin',
+            id: '1',
+            roleIds: ['1'],
+        });
+    }
+
+    public add$(<%= camelize(name) %>: <%= classify(name) %>EntityAdd): Observable<<%= classify(name) %>Entity> {
+        const id = uuidv4();
+        const <%= camelize(name) %>Entity: <%= classify(name) %>Entity = {
+            ...<%= camelize(name) %>,
+            id,
+        };
+
+        this.<%= camelize(name) %>Map.set(id, <%= camelize(name) %>Entity);
+
+        return of(<%= camelize(name) %>Entity);
+    }
+
+    public get$(id: string): Observable<<%= classify(name) %>Entity | undefined> {
+        return of(this.<%= camelize(name) %>Map.get(id));
+    }
+
+    public list$(): Observable<<%= classify(name) %>Entity[]> {
+        return of(Array.from(this.<%= camelize(name) %>Map.values()));
+    }
+
+    public update$(<%= camelize(name) %>: <%= classify(name) %>EntityUpdate): Observable<<%= classify(name) %>EntityUpdate> {
+        const <%= camelize(name) %>Entity = this.<%= camelize(name) %>Map.get(<%= camelize(name) %>.id);
+        let updated<%= classify(name) %>: <%= classify(name) %>Entity;
+
+        if (!<%= camelize(name) %>Entity) {
+            throw new Error('<%= classify(name) %> not existed!');
+        } else {
+            updated<%= classify(name) %> = {
+                ...<%= camelize(name) %>Entity,
+                ...<%= camelize(name) %>,
+            };
+        }
+
+        this.<%= camelize(name) %>Map.set(updated<%= classify(name) %>.id || '', updated<%= classify(name) %>);
+
+        return of(updated<%= classify(name) %> as <%= classify(name) %>EntityUpdate);
+    }
+}

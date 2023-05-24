@@ -1,0 +1,92 @@
+import { Observable, Subject } from 'rxjs';
+import { RoleNames } from '<%= apiPath %>/role';
+import { <%= classify(name) %>Entity, <%= classify(name) %>TableParams } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import {
+    AfterContentChecked,
+    AfterContentInit,
+    AfterViewChecked,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    DoCheck,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+} from '@angular/core';
+
+import { <%= classify(name) %>AdminPermissionsService } from '../../../admin/service';
+import { <%= classify(name) %>TableComponentService } from './<%= dasherize(name) %>-table.component.service';
+
+@Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [<%= classify(name) %>TableComponentService],
+    selector: 'app-<%= dasherize(name) %>-table',
+    templateUrl: './<%= dasherize(name) %>-table.component.html',
+    styleUrls: ['./<%= dasherize(name) %>-table.component.scss'],
+})
+export class <%= classify(name) %>TableComponent
+    implements
+        OnInit,
+        DoCheck,
+        OnChanges,
+        AfterContentChecked,
+        AfterContentInit,
+        AfterViewInit,
+        AfterViewChecked
+{
+    public buttonPermissions: string[] = [];
+    public params$!: Observable<<%= classify(name) %>TableParams>;
+    public selectEntity$$!: Subject<<%= classify(name) %>Entity | null>;
+    @Input() text!: string;
+
+    public constructor(private componentService: <%= classify(name) %>TableComponentService) {
+        console.log('<%= classify(name) %>TableComponent Constructor');
+
+        this.selectEntity$$ = new Subject();
+    }
+
+    public edit<%= classify(name) %>(<%= camelize(name) %>: <%= classify(name) %>Entity): void {
+        this.componentService.edit<%= classify(name) %>(<%= camelize(name) %>);
+    }
+
+    public ngAfterContentChecked(): void {
+        console.log('<%= classify(name) %>TableComponent AfterContentChecked');
+    }
+
+    public ngAfterContentInit(): void {
+        console.log('<%= classify(name) %>TableComponent AfterContentInit');
+    }
+
+    public ngAfterViewChecked(): void {
+        console.log('<%= classify(name) %>TableComponent AfterViewChecked');
+    }
+
+    public ngAfterViewInit(): void {
+        console.log('<%= classify(name) %>TableComponent AfterViewInit');
+    }
+
+    public ngDoCheck(): void {
+        console.log('<%= classify(name) %>TableComponent DoCheck');
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        console.log('<%= classify(name) %>TableComponent OnChanges');
+    }
+
+    public ngOnInit(): void {
+        console.log('<%= classify(name) %>TableComponent OnInit');
+
+        this.initButtonPermissions();
+        this.params$ = this.componentService.init$();
+        this.componentService.selectEntity(this.selectEntity$$.asObservable());
+    }
+
+    private initButtonPermissions(): void {                         // itt meg azokláthatják a pencil zöld kör alakű szerkesztés ikont, akik ADMIN Role-juk van, vagy update<%= classify(name) %>Entity Permissionjuk
+        this.buttonPermissions = [
+            RoleNames.ADMIN,
+            <%= classify(name) %>AdminPermissionsService.update<%= classify(name) %>Entity,
+        ];
+    }
+}

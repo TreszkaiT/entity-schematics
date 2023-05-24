@@ -1,0 +1,31 @@
+import { LoginModel, RegistrationModel } from '<%= apiPath %>/authentication';
+import { <%= classify(name) %>Entity } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { createAction, props } from '@ngrx/store';
+
+export const register = createAction(
+  '[Registration Component] Register',
+  props<{ registrationModel: RegistrationModel }>()
+);
+export const registerSuccess = createAction(
+  '[Registration Component] Register Success'
+);
+export const registerFail = createAction(
+  '[Registration Component] Register Fail',
+  props<{ error: string }>()
+);
+
+export const login = createAction(
+  '[Login Component] Login',
+  props<{ <%= camelize(name) %>: <%= classify(name) %>Entity }>()
+);
+export const loginSuccess = createAction(
+  '[Login Component] Login Success',
+  props<{ <%= camelize(name) %>: <%= classify(name) %>Entity }>()
+);
+export const loginFail = createAction(
+  '[Login Component] Login Fail',
+  props<{ error: string }>()
+);
+
+export const logout = createAction('[Application Component] Logout');

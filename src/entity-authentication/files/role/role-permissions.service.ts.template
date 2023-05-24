@@ -1,0 +1,12 @@
+import { ActionEnum } from '../permission';
+import { RoleResourceEnum } from './role';
+
+export class RolePermissionsService {               // Role Permission nevek létrehozása // a Role Entitás ilyen Permission-okat tartalmaz: createRoleEntity, deleteRoleEntity...
+    static readonly createRoleEntity = ActionEnum.CREATE.toString() + RoleResourceEnum.ROLE_ENTITY.toString();
+    static readonly deleteRoleEntity = ActionEnum.DELETE.toString() + RoleResourceEnum.ROLE_ENTITY.toString();
+    static readonly updateRoleEntity = ActionEnum.UPDATE.toString() + RoleResourceEnum.ROLE_ENTITY.toString();
+    static readonly viewRoleEntity   = ActionEnum.VIEW.toString()   + RoleResourceEnum.ROLE_ENTITY.toString();
+}
+    // a Role Entitás ilyen Permission-okat tartalmaz: createRoleEntity, deleteRoleEntity...
+   // erre épül majd rá a Role Admin
+   // ő kiterjeszti ezt a Service-t és hozzáadja a saját Permission-jait (viewRoleAdminPage, viewRoleEditPage, editRoleListPage)

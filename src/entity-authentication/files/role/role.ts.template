@@ -1,0 +1,41 @@
+import { SelectItemGroup } from 'primeng/api';
+
+import { FormGroup } from '@angular/forms';
+
+import { Identifiable } from '../identifiable';
+
+export interface RoleModel {                                        // Ez egy teljesen új Entitás
+    name: string;
+    permissions: string[];
+}
+
+export type RoleEntity = RoleModel & Identifiable;
+
+export type RoleEntityAdd = RoleModel;
+
+export type RoleEntityUpdate = Partial<RoleEntity> & Identifiable;
+
+export type RoleFormParams = {
+    formGroup:      FormGroup;
+    permissions:    SelectItemGroup[];
+};
+
+export type RoleTableParams = {
+    roles: RoleEntity[];
+};
+
+export const ROLE_FEATURE_KEY = 'role';
+
+export enum RoleResourceEnum {
+    ROLE_ENTITY     = 'RoleEntity',
+    ROLE_ADMIN_PAGE = 'RoleAdminPage',
+    ROLE_EDIT_PAGE  = 'RoleEditPage',
+    ROLE_LIST_PAGE  = 'RoleListPage',
+}
+
+export const RoleNames = {
+    ADMIN:  'ADMIN',
+    EDITOR: 'EDITOR',
+    OWNER:  'OWNER',
+    USER:   'USER',
+};

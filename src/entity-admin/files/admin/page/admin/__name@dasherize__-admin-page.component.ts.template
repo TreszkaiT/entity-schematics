@@ -1,0 +1,50 @@
+import { Observable } from 'rxjs';
+import { <%= classify(name) %>StoreService } from '<%= apiPath%>/<%= dasherize(name) %>';
+
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-<%= dasherize(name) %>-admin-page',
+    templateUrl: './<%= dasherize(name) %>-admin-page.component.html',
+    styleUrls: ['./<%= dasherize(name) %>-admin-page.component.scss'],
+})
+export class <%= classify(name) %>AdminPageComponent implements OnInit {
+
+<% if (authorization) { %>
+    public buttonPermissions: string[] = [];
+<% } else { %>
+<% }%>    
+
+    public isNewEntityButtonEnabled$!: Observable<boolean>;
+
+    public constructor(
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService
+    ) {}
+
+    public clickHandler(): void {
+        this.router.navigate(['edit', 0], { relativeTo: this.activatedRoute });
+    }
+
+    public ngOnInit(): void {
+        this.isNewEntityButtonEnabled$ =
+            this.<%= camelize(name) %>StoreService.selectNewEntityButtonEnabled$();
+        
+        <% if (authorization) { %>
+        this.initButtonPermissions();
+        <% } else { %>
+        <% }%> 
+    }
+
+<% if (authorization) { %>
+    private initButtonPermissions(): void {
+        this.buttonPermissions = [RoleNames.ADMIN, UserAdminPermissionsService.createUserEntity];
+    }
+<% } else { %>
+<% }%>    
+
+
+}

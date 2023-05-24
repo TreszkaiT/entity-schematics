@@ -1,0 +1,13 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { TableModule } from 'primeng/table';
+
+import { SharedModule } from '../../common';
+import { RoleTableComponent } from './component';
+
+@NgModule({
+    declarations: [RoleTableComponent],
+    exports: [RoleTableComponent],
+    imports: [CommonModule, SharedModule, TableModule],
+})
+export class RoleCollectionModule {}

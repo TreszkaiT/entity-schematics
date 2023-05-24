@@ -1,0 +1,76 @@
+import { Observable, of } from 'rxjs';
+import {
+  RoleDataService,
+  RoleEntity,
+  RoleEntityAdd,
+  RoleEntityUpdate,
+  RoleNames,
+} from '<%= apiPath %>/role';
+
+import { v4 as uuidv4 } from 'uuid';
+
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class RoleDataServiceImpl extends RoleDataService {
+  private roleMap: Map<string, RoleEntity> = new Map<string, RoleEntity>();
+
+  public constructor() {
+    super();
+
+    this.roleMap.set('1', { id: '1', name: RoleNames.ADMIN, permissions: [RoleNames.ADMIN]});
+    this.roleMap.set('2', { id: '2', name: RoleNames.USER, permissions: [RoleNames.USER]})
+  }
+
+  public add$(role: RoleEntityAdd): Observable<RoleEntity> {
+    const id = uuidv4();
+    const roleEntity: RoleEntity = {
+        ...role,
+        id,
+    };
+
+    this.roleMap.set(id, roleEntity);
+
+    return of(roleEntity);
+}
+
+public get$(id: string): Observable<RoleEntity | undefined> {
+    return of(this.roleMap.get(id));
+}
+
+public list$(): Observable<RoleEntity[]> {
+    return of(Array.from(this.roleMap.values()));
+}
+
+public listByIds$(ids: string[]): Observable<RoleEntity[]> {
+    const roles: RoleEntity[] = [];
+
+    ids.forEach(id => {
+        const role = this.roleMap.get(id);
+
+        if (role) {
+            roles.push(role);
+        }
+    })
+
+    return of(roles);
+}
+
+public update$(role: RoleEntityUpdate): Observable<RoleEntityUpdate> {
+    const roleEntity = this.roleMap.get(role.id);
+    let updatedRole: RoleEntity;
+
+    if (!roleEntity) {
+        throw new Error('Role not existed!');
+    } else {
+        updatedRole = {
+            ...roleEntity,
+            ...role,
+        };
+    }
+
+    this.roleMap.set(updatedRole.id || '', updatedRole);
+
+    return of(updatedRole as RoleEntityUpdate);
+}
+}

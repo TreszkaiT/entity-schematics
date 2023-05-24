@@ -1,0 +1,35 @@
+import { Observable } from 'rxjs';
+import { <%= classify(name) %>FormParams } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
+import { <%= classify(name) %>FormService } from './<%= dasherize(name) %>-form.service';
+
+@Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [<%= classify(name) %>FormService],
+    selector: `app-<%= dasherize(name) %>-form`,
+    templateUrl: './<%= dasherize(name) %>-form.component.html',
+    styleUrls: ['./<%= dasherize(name) %>-form.component.scss'],
+
+})
+export class <%= classify(name) %>FormComponent implements OnInit {
+    public value = 'fdfdf';
+    public params$!: Observable<<%= classify(name) %>FormParams>;
+    
+    public constructor(protected componentService: <%= classify(name) %>FormService) {
+
+    }
+
+    public cancel(): void {
+        this.componentService.cancel();
+    }
+
+    public ngOnInit(): void {
+        this.params$ = this.componentService.init$();
+    }
+
+    public submit(): void {
+        this.componentService.submit();
+    }
+}

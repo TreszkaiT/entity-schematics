@@ -1,0 +1,14 @@
+import { RoleStateService } from '<%= apiPath %>/role';
+
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+
+@Injectable()
+export class RoleListPageResolverService implements Resolve<void> {
+    constructor(private roleStateService: RoleStateService) {}
+
+    public resolve(): void {
+        this.roleStateService.dispatchChangeNewEntityButtonEnabled(true);
+        this.roleStateService.dispatchListEntitiesAction();
+    }
+}

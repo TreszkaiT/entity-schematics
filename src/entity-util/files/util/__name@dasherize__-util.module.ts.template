@@ -1,0 +1,19 @@
+import { <%= classify(name) %>UtilService } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { <%= classify(name) %>UtilServiceImpl } from './service';
+
+@NgModule({
+    declarations: [],
+    imports: [CommonModule, ReactiveFormsModule],
+    providers: [
+        {
+            provide: <%= classify(name) %>UtilService,
+            useClass: <%= classify(name) %>UtilServiceImpl,
+        },
+    ],
+})
+export class <%= classify(name) %>UtilModule {}

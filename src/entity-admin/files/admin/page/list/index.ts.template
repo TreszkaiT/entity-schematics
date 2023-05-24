@@ -1,0 +1,2 @@
+export * from './<%= dasherize(name) %>-list-page-resolver.service';
+export * from './<%= dasherize(name) %>-list-page.component';

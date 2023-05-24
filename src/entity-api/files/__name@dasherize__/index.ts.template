@@ -1,0 +1,8 @@
+export * from './<%= dasherize(name) %>';
+export * from './<%= dasherize(name) %>-data.service';
+<% if (authorization) { %>
+    export * from './<%= dasherize(name) %>-permissions.service';
+<% } else { %>
+<% }%>    
+export * from './<%= dasherize(name) %>-state.service';
+export * from './<%= dasherize(name) %>-util.service';

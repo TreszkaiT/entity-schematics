@@ -1,0 +1,13 @@
+import { <%= classify(name) %>StoreService } from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+
+@Injectable()
+export class <%= classify(name) %>ListPageResolverService implements Resolve<void> {
+    constructor(private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService) {}
+
+    public resolve(): void {
+        this.<%= camelize(name) %>StoreService.dispatchChangeNewEntityButtonEnabled(true);
+    }
+}

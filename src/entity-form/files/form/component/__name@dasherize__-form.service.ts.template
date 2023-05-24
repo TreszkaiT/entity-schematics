@@ -1,0 +1,100 @@
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import {
+    <%= classify(name) %>Entity,
+    <%= classify(name) %>EntityAdd,
+    <%= classify(name) %>EntityUpdate,
+    <%= classify(name) %>FormParams,
+    <%= classify(name) %>StoreService,
+    <%= classify(name) %>UtilService,
+} from '<%= apiPath %>/<%= dasherize(name) %>';
+
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleEntity, RoleStateService } from '<%= apiPath %>/role';
+
+@Injectable()
+export class <%= classify(name) %>FormService {
+    private formGroup!: FormGroup;
+    private params!: <%= classify(name) %>FormParams;
+    private params$$: ReplaySubject<<%= classify(name) %>FormParams>;
+    private <%= camelize(name) %>!: <%= classify(name) %>Entity | undefined;
+
+    public constructor(
+        private activatedRoute: ActivatedRoute,
+        private <%= camelize(name) %>StoreService: <%= classify(name) %>StoreService,
+        private <%= camelize(name) %>UtilService: <%= classify(name) %>UtilService,
+        private roleStateService: RoleStateService,
+        private router: Router
+    ) {
+        this.params$$ = new ReplaySubject();
+    }
+
+    public cancel(): void {
+        this.router.navigate(['../../list'], {
+            relativeTo: this.activatedRoute,
+        });
+    }
+
+    public init$(): Observable<<%= classify(name) %>FormParams> {
+        return this.activatedRoute.params.pipe(
+            switchMap((data) =>
+                combineLatest([
+                    this.<%= camelize(name) %>StoreService.selectEntity$(data['<%= camelize(name) %>Id']),
+                    this.roleStateService.selectEntityList$()
+                ])
+            ),
+            switchMap(([<%= camelize(name) %>, roles]) => {
+                this.<%= camelize(name) %> = <%= camelize(name) %>;
+                this.formGroup = this.<%= camelize(name) %>UtilService.createFormGroup(<%= camelize(name) %>);
+                this.params = this.create<%= classify(name) %>Params(this.formGroup, roles);
+
+                this.params$$.next(this.params);
+
+                return this.params$$;
+            })
+        );
+    }
+
+    public mainImageUpload(file: File): void {
+        console.log(file);
+    }
+
+    public submit(): void {
+        if (this.<%= camelize(name) %>) {
+            this.update<%= classify(name) %>();
+        } else {
+            this.add<%= classify(name) %>();
+        }
+
+        this.router.navigate(['../../list'], {
+            relativeTo: this.activatedRoute,
+        });
+    }
+
+    private add<%= classify(name) %>(): void {
+        const <%= camelize(name) %>: <%= classify(name) %>EntityAdd = this.<%= camelize(name) %>UtilService.createEntity(
+            this.params.formGroup
+        );
+
+        this.<%= camelize(name) %>StoreService.dispatchAddEntityAction(<%= camelize(name) %>);
+    }
+
+    private create<%= classify(name) %>Params(formGroup: FormGroup, roles: RoleEntity[]): <%= classify(name) %>FormParams {
+        const <%= camelize(name) %>FormParams: <%= classify(name) %>FormParams = {
+            formGroup,
+            roles
+        };
+
+        return <%= camelize(name) %>FormParams;
+    }
+
+    private update<%= classify(name) %>(): void {
+        const <%= camelize(name) %>: <%= classify(name) %>EntityUpdate = this.<%= camelize(name) %>UtilService.updateEntity(
+            this.params.formGroup
+        );
+
+        this.<%= camelize(name) %>StoreService.dispatchUpdateEntityAction(<%= camelize(name) %>);
+    }
+}

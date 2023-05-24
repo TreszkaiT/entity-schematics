@@ -1,0 +1,52 @@
+<section class="artist-form" *ngIf="params$ | async as params">
+	<form [formGroup]="params.formGroup">
+		<input name="id" formControlName="id" hidden />
+
+		<div class="field">
+			<span class="p-float-label">
+				<input id="email" type="text" pInputText formControlName="email" />
+
+				<label for="email">Email</label>
+			</span>
+		</div>
+
+		<div class="field">
+			<span class="p-float-label">
+				<input id="firstName" type="text" pInputText formControlName="firstName" />
+
+				<label for="firstName">First name</label>
+			</span>
+		</div>
+
+		<div class="field">
+			<span class="p-float-label">
+				<input id="lastName"  formControlName="lastName" pInputText type="text"/>
+
+				<label for="lastName">Last name</label>
+			</span>
+		</div>
+
+		<div class="field">
+			<span class="p-float-label">
+				<input id="displayName"  formControlName="displayName" pInputText type="text"/>
+
+				<label for="displayName">Display name</label>
+			</span>
+		</div>
+
+		<div class="field">
+			<span class="p-float-label">
+				<p-multiSelect [options]="params.roles" formControlName="roles" optionLabel="name"></p-multiSelect>
+
+				<label for="roles">Roles</label>
+			</span>
+		</div>
+
+		<div style="margin-top: 10px" fxLayout="row" fxLayoutAlign="space-around">
+			<button pButton type="button" label="Submit" (click)="submit()"
+				[disabled]="!params.formGroup.valid"></button>
+
+			<button pButton type="button" label="Cancel" (click)="cancel()"></button>
+		</div>
+	</form>
+</section>

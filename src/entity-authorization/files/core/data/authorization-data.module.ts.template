@@ -1,0 +1,19 @@
+import { AuthorizationService } from '<%= apiPath %>/authorization';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { AuthorizationServiceImpl } from './service';
+import { NgxPermissionsModule } from 'ngx-permissions';
+
+@NgModule({                                                     // azért kell, hogy az egész Authorization logika működjön
+    imports: [CommonModule, NgxPermissionsModule.forRoot(),],   // ez alkalmazás szintjén példányosodik, mert az app.module.ts-be húzzuk be ezt a modult
+    exports: [NgxPermissionsModule],
+    providers: [
+        {
+            provide: AuthorizationService,
+            useClass: AuthorizationServiceImpl,
+        },
+    ],
+})
+export class AuthorizationDataModule {}
