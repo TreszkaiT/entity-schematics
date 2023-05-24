@@ -18,7 +18,6 @@ export enum ModulesEnum {
     authentication  = "authentication",
     authorization   = "authorization",
     //modules
-    config          = "config",
     data            = "data",
     store           = "store",
     form            = "form",

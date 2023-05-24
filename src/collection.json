@@ -31,11 +31,6 @@
       "factory": "./entity-authorization/index",
       "schema": "./entity-authorization/schema.json"
     },    
-    "entity-config": {
-      "description": "An Entity config schematic.",
-      "factory": "./entity-config/index",
-      "schema": "./entity-config/schema.json"
-    },
     "entity-data": {
       "description": "An Entity data schematic.",
       "factory": "./entity-data/index",
