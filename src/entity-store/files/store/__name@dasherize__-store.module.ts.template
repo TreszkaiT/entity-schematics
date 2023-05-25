@@ -7,12 +7,12 @@ import { StoreModule } from '@ngrx/store';
 
 import { <%= classify(name) %>StoreServiceImpl } from './service';
 import { <%= classify(name) %>Effects } from './state/<%= dasherize(name) %>.effects';
-import { <%= camelize(name) %>Reducer } from './state/<%= dasherize(name) %>.reducer';
+import * as from<%= classify(name) %> from './state/<%= dasherize(name) %>.reducer';
 
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature(<%= name.toUpperCase() %>_FEATURE_KEY, <%= camelize(name) %>Reducer),
+        StoreModule.forFeature(<%= name.toUpperCase() %>_FEATURE_KEY, from<%= classify(name) %>.reducer),
         EffectsModule.forFeature([<%= classify(name) %>Effects]),
     ],
     providers: [
