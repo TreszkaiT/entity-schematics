@@ -12,7 +12,7 @@ import { <%= camelize(name) %>Reducer } from './state/<%= dasherize(name) %>.red
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature(<%= name.toUpperCase() %>_FEATURE_KEY, <%= camelize(name) %>.Reducer),
+        StoreModule.forFeature(<%= name.toUpperCase() %>_FEATURE_KEY, <%= camelize(name) %>Reducer),
         EffectsModule.forFeature([<%= classify(name) %>Effects]),
     ],
     providers: [

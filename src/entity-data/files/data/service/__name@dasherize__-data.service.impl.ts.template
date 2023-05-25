@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 import {
     <%= classify(name) %>DataService, <%= classify(name) %>Entity, <%= classify(name) %>EntityAdd, <%= classify(name) %>EntityUpdate, <%= classify(name) %>Model
-} from '<%= apiPath %>	/<%= dasherize(name) %>';
+} from '<%= apiPath %>/<%= dasherize(name) %>';
 import { environment } from 'src/environments/environment';
 import { v4 as uuidv4 } from 'uuid';
 
