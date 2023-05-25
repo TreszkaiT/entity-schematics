@@ -11,10 +11,25 @@
       "factory": "./entity-api/index",
       "schema": "./entity-api/schema.json"
     }, 
+    "entity-admin": {
+      "description": "An Entity admin schematic.",
+      "factory": "./entity-admin/index",
+      "schema": "./entity-admin/schema.json"
+    },
+    "entity-collection": {
+      "description": "An Entity collection schematic.",
+      "factory": "./entity-collection/index",
+      "schema": "./entity-form/schema.json"
+    },    
     "entity-data": {
       "description": "An Entity data schematic.",
       "factory": "./entity-data/index",
       "schema": "./entity-data/schema.json"
+    },
+    "entity-form": {
+      "description": "An Entity form schematic.",
+      "factory": "./entity-form/index",
+      "schema": "./entity-form/schema.json"
     },
     "entity-store": {
       "description": "An Entity store schematic.",
@@ -26,20 +41,10 @@
       "factory": "./entity-util/index",
       "schema": "./entity-util/schema.json"
     },
-    "entity-form": {
-      "description": "An Entity form schematic.",
-      "factory": "./entity-form/index",
-      "schema": "./entity-form/schema.json"
-    },
-    "entity-collection": {
-      "description": "An Entity collection schematic.",
-      "factory": "./entity-collection/index",
-      "schema": "./entity-form/schema.json"
-    },
-    "entity-admin": {
-      "description": "An Entity admin schematic.",
-      "factory": "./entity-admin/index",
-      "schema": "./entity-admin/schema.json"
+    "entity-page": {
+      "description": "An Entity page schematic.",
+      "factory": "./entity-page/index",
+      "schema": "./entity-page/schema.json"
     }
   }
 }

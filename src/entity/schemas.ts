@@ -4,6 +4,7 @@ export interface EntitySchema {
     modulePath: string;
     apiPath: string;
     corePath: string;
+    pagePath: string;
 }
 
 export enum ModulesEnum {   
@@ -16,4 +17,5 @@ export enum ModulesEnum {
     util            = "util",
     collection      = "collection",
     admin           = "admin",
+    page            = "page",
 }

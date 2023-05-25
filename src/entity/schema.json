@@ -15,7 +15,7 @@
                 "message": "Which modules do you want to generate?",
                 "type": "list",
                 "items": [
-                    "api", "data", "store", "form", "util", "collection", "admin"
+                    "api", "data", "store", "form", "util", "collection", "admin", "page"
                 ]
             }
         },
@@ -36,6 +36,12 @@
             "default": "src/app/core",
             "description": "Core path",
             "x-prompt": "Where is your project core folder? ( src/app/core )"
+        },
+        "pagePath": {
+            "type": "string",
+            "default": "src/app/page",
+            "description": "View path",
+            "x-prompt": "Where is your project core folder? ( src/app/page )"
         }
     },
     "required": ["name"]
