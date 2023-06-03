@@ -46,4 +46,4 @@ export const select<%= classify(name) %> = createSelector(
 export const select<%= classify(name) %>ById = (id: string) =>
     createSelector(get<%= classify(name) %>Entities, (<%= camelize(name) %>Entities: Dictionary<<%= classify(name) %>Entity>) => {     
         return <%= camelize(name) %>Entities[id];                                                    // a Dictionary-val lehet elérni, hogy itt id alapján adjon vissza egy <%= classify(name) %>Entity-t (Map-pinget így tudom egy kéréssel gyorsan átnézni)
-    });
+});

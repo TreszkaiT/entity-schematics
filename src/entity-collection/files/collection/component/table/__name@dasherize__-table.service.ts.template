@@ -27,6 +27,10 @@ export class <%= classify(name) %>TableService {
         });
     }
 
+    public delete<%= classify(name) %>(<%= camelize(name) %>: <%= classify(name) %>Entity): void {
+        this.<%= camelize(name) %>StoreService.dispatchDeleteEntityAction(<%= camelize(name) %>.id);
+    }
+
     public init$(): Observable<<%= classify(name) %>TableParams> {
         
         // this.<%= camelize(name) %>StoreService.dispatchListEntitiesAction();

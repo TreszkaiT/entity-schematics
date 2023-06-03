@@ -22,6 +22,10 @@ export class <%= classify(name) %>TableComponent implements OnInit {
 		this.componentService.edit<%= classify(name) %>(<%= camelize(name) %>);
 	}
 
+	public delete<%= classify(name) %>(<%= camelize(name) %>: <%= classify(name) %>Entity): void {
+		this.componentService.delete<%= classify(name) %>(<%= camelize(name) %>);
+	}
+
 	public ngOnInit(): void {
 		this.params$ = this.componentService.init$();
 	}

@@ -8,6 +8,7 @@ export abstract class <%= classify(name) %>StoreService {
     public abstract dispatchGetEntityAction(id: string): void;
     public abstract dispatchListEntitiesAction(): void;
     public abstract dispatchUpdateEntityAction(entity: <%= classify(name) %>EntityUpdate): void;
+    public abstract dispatchDeleteEntityAction(id: string): void;
     public abstract selectEntity$(id: string): Observable<<%= classify(name) %>Entity | undefined>;
     public abstract selectEntityList$(): Observable<<%= classify(name) %>Entity[]>;
     public abstract selectNewEntityButtonEnabled$(): Observable<boolean>;
