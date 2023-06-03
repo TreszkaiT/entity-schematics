@@ -1,3 +1,0 @@
-export * from './config-data.service';
-export * from './config-store.service';
-export * from './config';

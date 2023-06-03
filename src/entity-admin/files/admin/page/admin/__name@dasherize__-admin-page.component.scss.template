@@ -1,6 +1,4 @@
-<% if (authorization) { %>
 
-<% } else { %>
    
 .<%= dasherize(name) %>-form {
 	width: 100%;
@@ -19,4 +17,3 @@ button {
 		padding-bottom: 10px;
 	}
 }
-<% }%> 

@@ -7,4 +7,5 @@ export abstract class <%= classify(name) %>DataService {
     public abstract get$(id: string): Observable<<%= classify(name) %>Entity | undefined>;
     public abstract list$(): Observable<<%= classify(name) %>Entity[]>;
     public abstract update$(entity: <%= classify(name) %>EntityUpdate): Observable<<%= classify(name) %>EntityUpdate>;
+    public abstract patch$(entity: <%= classify(name) %>EntityUpdate): Observable<<%= classify(name) %>EntityUpdate>; 
 }

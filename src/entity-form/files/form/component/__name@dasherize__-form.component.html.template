@@ -4,41 +4,17 @@
 
 		<div class="field">
 			<span class="p-float-label">
-				<input id="email" type="text" pInputText formControlName="email" />
+				<input id="name" type="text" pInputText formControlName="name" />
 
-				<label for="email">Email</label>
+				<label for="name">Name</label>
 			</span>
 		</div>
 
 		<div class="field">
 			<span class="p-float-label">
-				<input id="firstName" type="text" pInputText formControlName="firstName" />
+				<input id="zip" type="text" pInputText formControlName="zip" />
 
-				<label for="firstName">First name</label>
-			</span>
-		</div>
-
-		<div class="field">
-			<span class="p-float-label">
-				<input id="lastName"  formControlName="lastName" pInputText type="text"/>
-
-				<label for="lastName">Last name</label>
-			</span>
-		</div>
-
-		<div class="field">
-			<span class="p-float-label">
-				<input id="displayName"  formControlName="displayName" pInputText type="text"/>
-
-				<label for="displayName">Display name</label>
-			</span>
-		</div>
-
-		<div class="field">
-			<span class="p-float-label">
-				<p-multiSelect [options]="params.roles" formControlName="roles" optionLabel="name"></p-multiSelect>
-
-				<label for="roles">Roles</label>
+				<label for="zip">Zip</label>
 			</span>
 		</div>
 

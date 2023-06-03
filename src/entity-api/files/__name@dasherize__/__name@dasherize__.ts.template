@@ -1,20 +1,12 @@
 import { FormGroup } from '@angular/forms';
 
-import { Identifiable } from '../identifiable';
-import { RoleEntity } from '../role';
+import { Identifiable } from '../../identifiable';
+
+export const <%= name.toUpperCase() %>_FEATURE_KEY = '<%= dasherize(name) %>';
 
 export interface <%= classify(name) %>Model {
-    displayName?:   string;
-    email:          string;
-    firstName:      string;
-    language?:      string;
-    lastName:       string;
-
-    <% if (authorization) { %> 
-    roleIds?:       string[]; 
-    roles?:         RoleEntity[];
-    <% }%> 
-
+  name: string;
+  zip: string;
 }
 
 export type <%= classify(name) %>Entity = <%= classify(name) %>Model & Identifiable;
@@ -25,28 +17,11 @@ export type <%= classify(name) %>EntityUpdate = Partial<<%= classify(name) %>Ent
 
 export type <%= classify(name) %>FormParams = {
     formGroup: FormGroup;
-    <% if (authorization) { %> 
-    roles:      RoleEntity[];
-    <% }%>  
+
 };
 
 export type <%= classify(name) %>TableParams = {
     <%= camelize(name) %>s: <%= classify(name) %>Entity[];
-    <% if (authorization) { %> 
-    selectedEntity: <%= classify(name) %>Entity | null;
-    <% } else { %>
-    empty: string[];
-    <% }%>    
-
 };
 
-export const <%= name.toUpperCase() %>_FEATURE_KEY = '<%= dasherize(name) %>';
 
-<% if (authorization) { %> 
-export enum <%= classify(name) %>ResourceEnum {
-    <%= name.toUpperCase() %>_ENTITY     = '<%= classify(name) %>Entity',
-    <%= name.toUpperCase() %>_ADMIN_PAGE = '<%= classify(name) %>AdminPage',
-    <%= name.toUpperCase() %>_EDIT_PAGE  = '<%= classify(name) %>EditPage',
-    <%= name.toUpperCase() %>_LIST_PAGE  = '<%= classify(name) %>ListPage',
-}
-<% }%> 

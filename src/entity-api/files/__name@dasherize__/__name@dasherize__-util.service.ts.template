@@ -4,6 +4,6 @@ import { FormGroup } from '@angular/forms';
 
 export abstract class <%= classify(name) %>UtilService {
     public abstract createEntity(formGroup: FormGroup): <%= classify(name) %>EntityAdd;
-    public abstract createFormGroup(entity: <%= classify(name) %>Entity | undefined): FormGroup;
+    public abstract createFormGroup(<%= camelize(name) %>: <%= classify(name) %>Entity | undefined): FormGroup;
     public abstract updateEntity(formGroup: FormGroup): <%= classify(name) %>EntityUpdate;
 }

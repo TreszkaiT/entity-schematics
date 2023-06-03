@@ -1,9 +1,0 @@
-import { RoleEntity, RoleEntityAdd, RoleEntityUpdate } from './role';
-
-import { FormGroup } from '@angular/forms';
-
-export abstract class RoleUtilService {
-    public abstract createEntity(formGroup: FormGroup):                 RoleEntityAdd;
-    public abstract createFormGroup(entity: RoleEntity | undefined):    FormGroup;
-    public abstract updateEntity(formGroup: FormGroup):                 RoleEntityUpdate;
-}

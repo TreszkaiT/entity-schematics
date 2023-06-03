@@ -1,58 +1,26 @@
-import { NgxPermissionsGuard } from 'ngx-permissions';
-import { RoleNames } from '<%= apiPath %>/role';
-import { RoleAdminPermissionsService } from '<%= modulePath %>/role/admin/service';
-import { <%= classify(name) %>AdminPermissionsService } from '<%= modulePath %>/<%= dasherize(name) %>/admin/service';
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AdminPageComponent } from './component';
+import { AdminPageComponent } from './component/page/admin-page.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: AdminPageComponent,
-        children: [
-            {
-                canActivate: [NgxPermissionsGuard],
-                data: {
-                    permissions: {
-                        only: [
-                            RoleNames.ADMIN,
-                            <%= classify(name) %>AdminPermissionsService.view<%= classify(name) %>AdminPage,
-                        ],
-                        redirectTo: '/error',
-                    },
-                },
-                path: '<%= camelize(name) %>',
-                loadChildren: () =>
-                    import(
-                        '../../module/<%= dasherize(name) %>/admin/<%= dasherize(name) %>-admin-page.module'
-                    ).then((lib) => lib.<%= classify(name) %>AdminPageModule),
-            },
-            {
-                canActivate: [NgxPermissionsGuard],
-                data: {
-                    permissions: {
-                        only: [
-                            RoleNames.ADMIN,
-                            RoleAdminPermissionsService.viewRoleAdminPage,
-                        ],
-                        redirectTo: '/error',
-                    },
-                },
-                path: 'role',
-                loadChildren: () =>
-                    import(
-                        '../../module/role/admin/role-admin-page.module'
-                    ).then((lib) => lib.RoleAdminPageModule),
-            },
-        ],
-    },
+  {
+    path: '',                                                             // ha az admin URL meg van hívva
+    component: AdminPageComponent,
+    children: [
+      {
+        path: '<%= dasherize(name) %>',                                                   // Lazy modon meg a <%= dasherize(name) %>-t, ha szükség lezs rá
+        loadChildren: () =>
+          import('<%= modulePath %>/<%= dasherize(name) %>/admin/<%= dasherize(name) %>-admin-page.module').then(
+            (module) => module.<%= classify(name) %>AdminPageModule
+          ),
+      },                                    
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class AdminPageRoutingModule {}

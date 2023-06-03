@@ -1,9 +1,0 @@
-import { ActionEnum } from '../permission';
-import { <%= classify(name) %>ResourceEnum } from './<%= dasherize(name) %>';
-
-export class <%= classify(name) %>PermissionsService {
-    static readonly create<%= classify(name) %>Entity = ActionEnum.CREATE.toString() + <%= classify(name) %>ResourceEnum.USER_ENTITY.toString();
-    static readonly delete<%= classify(name) %>Entity = ActionEnum.DELETE.toString() + <%= classify(name) %>ResourceEnum.USER_ENTITY.toString();
-    static readonly update<%= classify(name) %>Entity = ActionEnum.UPDATE.toString() + <%= classify(name) %>ResourceEnum.USER_ENTITY.toString();
-    static readonly view<%= classify(name) %>Entity = ActionEnum.VIEW.toString() + <%= classify(name) %>ResourceEnum.USER_ENTITY.toString();
-}

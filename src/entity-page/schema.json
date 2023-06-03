@@ -5,20 +5,20 @@
     "properties": {
         "name": {
             "type": "string",
-            "description": "name"
-        },
-        "apiPath": {
-            "type": "string",
-            "description": "Location of api folder. Relative from project root. ( src/app/api )"
+            "description": "Name"
         },
         "modulePath": {
             "type": "string",
             "description": "Module path"
         },
-        "viewPath": {
+        "apiPath": {
             "type": "string",
-            "description": "Location of page (view) folder. Relative from project root. ( src/app/page )"
+            "description": "Api path"
+        },
+        "pagePath": {
+            "type": "string",
+            "description": "View path"
         }
     },
-    "required": ["name", "apiPath", "viewPath", "modulePath"]
+    "required": ["name", "modulePath", "apiPath", "pagePath"]
 }

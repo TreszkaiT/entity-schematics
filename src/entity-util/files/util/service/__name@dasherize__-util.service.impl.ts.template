@@ -7,51 +7,37 @@ import {
 
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoleEntity } from '<%= apiPath %>role';
 
 @Injectable()
 export class <%= classify(name) %>UtilServiceImpl extends <%= classify(name) %>UtilService {
     public _sort = (a: <%= classify(name) %>Entity, b: <%= classify(name) %>Entity): number =>
-        a.email < b.email ? 1 : -1;
+        a.name < b.name ? 1 : -1;
 
     public constructor(private formBuilder: FormBuilder) {
         super();
     }
 
     public createEntity(formGroup: FormGroup): <%= classify(name) %>EntityAdd {
-        const roles: RoleEntity[] = formGroup.value['roles'] || [];
 
         return {
-            roles: formGroup.value['roles'],
-            roleIds: roles.map(role => role.id),
-            displayName: formGroup.value['displayName'],
-            lastName: formGroup.value['lastName'],
-            email: formGroup.value['email'],
-            firstName: (formGroup.value['firstName'] as string).trim(),
+            name: (formGroup.value['name'] as string).trim(),
+            zip: formGroup.value['zip'],
         };
     }
 
     public createFormGroup(<%= camelize(name) %>: <%= classify(name) %>Entity | undefined): FormGroup {
         return this.formBuilder.group({
-            displayName: [<%= camelize(name) %>?.displayName],
-            lastName: [<%= camelize(name) %>?.lastName, Validators.required],
-            email: [<%= camelize(name) %>?.email, Validators.required],
-            firstName: [<%= camelize(name) %>?.firstName, Validators.required],
-            roles: [<%= camelize(name) %>?.roles],
+            zip: [<%= camelize(name) %>?.zip, Validators.required],
+            name: [<%= camelize(name) %>?.name, Validators.required],
             id: [<%= camelize(name) %>?.id],
         });
     }
 
     public updateEntity(formGroup: FormGroup): <%= classify(name) %>EntityUpdate {
-        const roles: RoleEntity[] = formGroup.value['roles'] || [];
 
         return {
-            roles: formGroup.value['roles'],
-            roleIds: roles.map(role => role.id),
-            displayName: formGroup.value['displayName'],
-            lastName: formGroup.value['lastName'],
-            email: formGroup.value['email'],
-            firstName: (formGroup.value['firstName'] as string).trim(),
+            name: formGroup.value['name'],
+            zip: formGroup.value['zip'],
             id: formGroup.value['id'],
         };
     }

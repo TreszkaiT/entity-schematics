@@ -2,21 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { <%= classify(name) %>AdminPageComponent } from './page/admin';
-import {
-    <%= classify(name) %>EditPageComponent,
-    <%= classify(name) %>EditPageResolverService,
-} from './page/edit';
-import {
-    <%= classify(name) %>ListPageComponent,
-    <%= classify(name) %>ListPageResolverService,
-} from './page/list';
-
-        <% if (authorization) { %>
-import { NgxPermissionsGuard } from 'ngx-permissions';
-import { RoleNames } from '<%= apiPath %>/role';
-import { UserAdminPermissionsService } from './service';
-        <% } else { %>
-        <% }%>    
+import { <%= classify(name) %>EditPageComponent, <%= classify(name) %>EditPageResolverService } from './page/edit';
+import { <%= classify(name) %>ListPageComponent, <%= classify(name) %>ListPageResolverService } from './page/list';
 
 const routes: Routes = [
     {
@@ -30,34 +17,12 @@ const routes: Routes = [
             },
             {
                 component: <%= classify(name) %>EditPageComponent,
-                <% if (authorization) { %>
-                canActivate: [NgxPermissionsGuard],
-                data: {
-                    breadcrumb: 'Edit',
-                    permissions: {
-                        only: [RoleNames.ADMIN, UserAdminPermissionsService.viewUserEditPage],
-                        redirectTo: '/error',
-                    },
-                },                
-                <% } else { %>
-                <% }%>    
                 path: 'edit/:<%= camelize(name) %>Id',
                 pathMatch: 'full',
                 resolve: { data: <%= classify(name) %>EditPageResolverService },
             },
             {
                 component: <%= classify(name) %>ListPageComponent,
-                <% if (authorization) { %>
-                canActivate: [NgxPermissionsGuard],
-                data: {
-                    breadcrumb: 'List',
-                    permissions: {
-                        only: [RoleNames.ADMIN, UserAdminPermissionsService.viewUserListPage],  // csa akkor engedi az oldalra navigálni, ha vagy ADMIN Role-ja van, vagy van viewUserListPage Permission-ja de
-                        redirectTo: '/error',                                                   // ha egyik sincs, akkor megyünk az error- oldalra
-                    },
-                },                
-                <% } else { %>
-                <% }%>    
                 path: 'list',
                 pathMatch: 'full',
                 resolve: { data: <%= classify(name) %>ListPageResolverService },
