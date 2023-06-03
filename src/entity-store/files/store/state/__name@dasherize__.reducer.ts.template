@@ -66,7 +66,16 @@ const <%= camelize(name) %>Reducer = createReducer(
     on(<%= camelize(name) %>Actions.update<%= classify(name) %>Success, (state, { <%= camelize(name) %> }) =>
         <%= camelize(name) %>Adapter.updateOne(<%= camelize(name) %>, state)
     ),
-    on(<%= camelize(name) %>Actions.update<%= classify(name) %>Fail, (state, { error }) => ({ ...state, error }))
+    on(<%= camelize(name) %>Actions.update<%= classify(name) %>Fail, (state, { error }) => ({ ...state, error })),
+    on(<%= camelize(name) %>Actions.delete<%= classify(name) %>, (state) => ({
+        ...state,
+        loading: false,
+        error: null,
+    })),
+    on(<%= camelize(name) %>Actions.delete<%= classify(name) %>Success, (state, { id }) =>
+            <%= camelize(name) %>Adapter.removeOne(id, state)
+        ),
+    on(<%= camelize(name) %>Actions.delete<%= classify(name) %>Fail, (state, { error }) => ({...state, error })),
 );
 
 export function reducer(state: <%= classify(name) %>State | undefined, action: Action) {

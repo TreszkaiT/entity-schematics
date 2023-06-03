@@ -79,6 +79,24 @@ export class <%= classify(name) %>Effects {
         )
     );
 
+    delete<%= classify(name) %>$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(<%= camelize(name) %>Actions.delete<%= classify(name) %>),
+            switchMap((action) =>
+                this.<%= camelize(name) %>DataService.delete$(action.id).pipe(
+                    map((<%= camelize(name) %>) => {
+                        return <%= camelize(name) %>Actions.delete<%= classify(name) %>Success({
+                            id: action.id,
+                        });
+                    }),
+                    catchError((error) => {
+                        return of(<%= camelize(name) %>Actions.delete<%= classify(name) %>Fail({ error }));
+                    })
+                )
+            )
+        )
+    );
+
     public constructor(
         private actions$: Actions,
         private <%= camelize(name) %>DataService: <%= classify(name) %>DataService

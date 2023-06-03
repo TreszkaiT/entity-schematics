@@ -44,4 +44,8 @@ export class <%= classify(name) %>DataServiceImpl extends <%= classify(name) %>D
       return this.http.patch<<%= classify(name) %>EntityUpdate>(`${this.url}/${<%= camelize(name) %>.id}`, <%= camelize(name) %>, {headers: this.headers} );   // így nem vagyok köteles minden property-t átadni... lehet csak a name: lesz benne, a zip: az nem
   }
 
+  public override delete$(<%= camelize(name) %>Id: string): Observable<boolean> {
+      return this.http.delete<boolean>(`${this.url}/${<%= camelize(name) %>Id}`, {headers: this.headers});
+  }
+
 }

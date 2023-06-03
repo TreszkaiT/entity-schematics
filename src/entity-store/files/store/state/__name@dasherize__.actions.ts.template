@@ -61,3 +61,18 @@ export const update<%= classify(name) %>Success = createAction(
     '[<%= classify(name) %> Admin] Update <%= classify(name) %> Success',
     props<{ <%= camelize(name) %>: Update<<%= classify(name) %>EntityUpdate> }>()
 );
+
+export const delete<%= classify(name) %> = createAction(
+    '[<%= classify(name) %> Admin] Delete <%= classify(name) %>',
+    props<{ id: string }>()
+);
+
+export const delete<%= classify(name) %>Fail = createAction(
+    '[<%= classify(name) %> Admin] Delete <%= classify(name) %> Fail',
+    props<{ error: string }>()
+);
+
+export const delete<%= classify(name) %>Success = createAction(
+    '[<%= classify(name) %> Admin] Delete <%= classify(name) %> Success',
+    props<{ id: string }>()
+);
